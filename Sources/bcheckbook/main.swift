@@ -148,6 +148,7 @@ let status = Application.run(startupHandler: { app in
         }
     }
     window.showAll() */
+    MainWindow(window: ApplicationWindow(application: app))
 }
 
 guard let status = status else {
