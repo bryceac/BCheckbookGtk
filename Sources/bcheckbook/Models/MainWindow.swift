@@ -15,7 +15,9 @@ class MainWindow: WindowModel {
 
     lazy var isReconciledCell = builder?.get("reconciledCellRenderer", CellRendererToggleRef.init)
 
-    var fileURL: URL?
+    var fileURL: URL? = nil
+
+    let records = Records()
 
     override func make(window: Window) {
         super.make(window: window)
