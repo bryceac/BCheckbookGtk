@@ -95,7 +95,7 @@ let status = Application.run(startupHandler: { app in
         store.setValue(iter: iter, column: 2, value: Value(record.event.isReconciled))
     }
 
-    let vendorCell = builder.get("vendorCellRenderer", CellRendererTextRef.init)
+    /* let vendorCell = builder.get("vendorCellRenderer", CellRendererTextRef.init)
     vendorCell.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
         let path = TreePath(string: path)
 
@@ -105,7 +105,7 @@ let status = Application.run(startupHandler: { app in
         record.event.vendor = newValue
 
         store.setValue(iter: iter, column: 3, value: Value(record.event.vendor))
-    }
+    } */
 
     window.add(widget: scrollView)
     for record in Records.shared.sortedRecords {
