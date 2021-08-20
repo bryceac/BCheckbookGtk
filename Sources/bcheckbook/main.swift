@@ -66,6 +66,22 @@ let status = Application.run(startupHandler: { app in
     })
     */
 
+    let checkNumberCell = builder.get("checkNumberCellRenderer", CellRendererTextRef.init)
+    checkNumberCell.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
+        let path = TreePath(string: path)
+
+        guard let checkNumber = Int(newValue) else { return }
+
+        let RECORD_ID = Records.shared.sortedRecords[path.index].id
+        guard let record = Records.shared.items.first(where: { $0.id == RECORD_ID }), let iter = store.iterator(for: path.index)  else { return }
+
+        record.event.checkNumber = checkNumber
+
+        if let checkNumber = record.event.checkNumber {
+            store.setValue(iter: iter, column: 1, value: Value(checkNumber))
+        }
+    }
+
     let toggleCell = builder.get("reconciledCellRenderer", CellRendererToggleRef.init)
     toggleCell.onToggled { [store] _, string in
         let path = TreePath(string: string)
