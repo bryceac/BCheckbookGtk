@@ -25,9 +25,9 @@ let status = Application.run(startupHandler: { app in
     window.setDefaultSize(width: 800, height: 600)
     
     let scrollView = builder.get("scrollView", ScrolledWindowRef.init)
-    let iterator = TreeIter()
+    /* let iterator = TreeIter()
     let store = ListStore(builder.get("store", Gtk.ListStoreRef.init).list_store_ptr)!
-    /* let checkNumberColumn = builder.get("checkNumberColumn", TreeViewColumnRef.init)
+    let checkNumberColumn = builder.get("checkNumberColumn", TreeViewColumnRef.init)
     let reconciledColumn = builder.get("reconciledColumn", TreeViewColumnRef.init)
     let vendorColumn = builder.get("vendorColumn", TreeViewColumnRef.init)
     let memoColumn = builder.get("memoColumn", TreeViewColumnRef.init)
@@ -57,7 +57,7 @@ let status = Application.run(startupHandler: { app in
     })
     */
 
-    let checkNumberCell = builder.get("checkNumberCellRenderer", CellRendererTextRef.init)
+    /* let checkNumberCell = builder.get("checkNumberCellRenderer", CellRendererTextRef.init)
     checkNumberCell.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
         let path = TreePath(string: path)
 
@@ -84,7 +84,7 @@ let status = Application.run(startupHandler: { app in
 
         // Modify the source of truth of the tree view
         store.setValue(iter: iter, column: 2, value: Value(record.event.isReconciled))
-    }
+    } */
 
     /* let vendorCell = builder.get("vendorCellRenderer", CellRendererTextRef.init)
     vendorCell.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
@@ -99,7 +99,7 @@ let status = Application.run(startupHandler: { app in
     } */
 
     window.add(widget: scrollView)
-    for record in Records.shared.sortedRecords {
+    /* for record in Records.shared.sortedRecords {
         switch record.event.type {
             case .deposit:
                 if let checkNumber = record.event.checkNumber {
@@ -146,7 +146,7 @@ let status = Application.run(startupHandler: { app in
                     Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
                 }
         }
-    }
+    } */
     window.showAll()
 }
 

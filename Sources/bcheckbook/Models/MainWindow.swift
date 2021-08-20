@@ -60,4 +60,55 @@ class MainWindow: WindowModel {
              records.add(record)
         }
     }
+
+    private func loadStore() {
+        for record in Records.shared.sortedRecords {
+            switch record.event.type {
+                case .deposit:
+                    if let checkNumber = record.event.checkNumber {
+                        store.append(asNextRow: iterator,
+                        Value(Event.DF.string(from: record.event.date)),
+                        Value("\(checkNumber)"),
+                        Value(record.event.isReconciled),
+                        Value(record.event.vendor),
+                        Value(record.event.memo),
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
+                        "N/A",
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
+                    } else {
+                        store.append(asNextRow: iterator,
+                        Value(Event.DF.string(from: record.event.date)),
+                        "N/A",
+                        Value(record.event.isReconciled),
+                        Value(record.event.vendor),
+                        Value(record.event.memo),
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
+                        "N/A",
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
+                    }
+                case .withdrawal:
+                    if let checkNumber = record.event.checkNumber {
+                        store.append(asNextRow: iterator,
+                        Value(Event.DF.string(from: record.event.date)),
+                        Value("\(checkNumber)"),
+                        Value(record.event.isReconciled),
+                        Value(record.event.vendor),
+                        Value(record.event.memo),
+                        "N/A",
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
+                    } else {
+                        store.append(asNextRow: iterator,
+                        Value(Event.DF.string(from: record.event.date)),
+                        "N/A",
+                        Value(record.event.isReconciled),
+                        Value(record.event.vendor),
+                        Value(record.event.memo),
+                        "N/A",
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
+                    }
+            }
+        }
+    }
 }
