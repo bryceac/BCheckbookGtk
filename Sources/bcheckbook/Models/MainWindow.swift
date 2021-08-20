@@ -62,11 +62,11 @@ class MainWindow: WindowModel {
     }
 
     private func loadStore() {
-        for record in Records.shared.sortedRecords {
+        for record in records.sortedRecords {
             switch record.event.type {
                 case .deposit:
                     if let checkNumber = record.event.checkNumber {
-                        store.append(asNextRow: iterator,
+                        store?.append(asNextRow: iterator,
                         Value(Event.DF.string(from: record.event.date)),
                         Value("\(checkNumber)"),
                         Value(record.event.isReconciled),
@@ -76,7 +76,7 @@ class MainWindow: WindowModel {
                         "N/A",
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
                     } else {
-                        store.append(asNextRow: iterator,
+                        store?.append(asNextRow: iterator,
                         Value(Event.DF.string(from: record.event.date)),
                         "N/A",
                         Value(record.event.isReconciled),
@@ -88,7 +88,7 @@ class MainWindow: WindowModel {
                     }
                 case .withdrawal:
                     if let checkNumber = record.event.checkNumber {
-                        store.append(asNextRow: iterator,
+                        store?.append(asNextRow: iterator,
                         Value(Event.DF.string(from: record.event.date)),
                         Value("\(checkNumber)"),
                         Value(record.event.isReconciled),
@@ -98,7 +98,7 @@ class MainWindow: WindowModel {
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
                     } else {
-                        store.append(asNextRow: iterator,
+                        store?.append(asNextRow: iterator,
                         Value(Event.DF.string(from: record.event.date)),
                         "N/A",
                         Value(record.event.isReconciled),
