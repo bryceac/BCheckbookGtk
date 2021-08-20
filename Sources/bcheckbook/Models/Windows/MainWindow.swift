@@ -19,6 +19,10 @@ class MainWindow: WindowModel {
 
     lazy var memoCell = builder?.get("memoCellRenderer", CellRendererTextRef.init)
 
+    lazy var depositCell = builder?.get("depositCellRenderer", CellRendererTextRef.init)
+
+    lazy var withdrawalCell = builder?.get("withdrawalCellRenderer", CellRendererTextRef.init)
+
     var fileURL: URL? = nil
 
     let records = Records()
@@ -76,6 +80,38 @@ class MainWindow: WindowModel {
             record.event.memo = newValue
 
             self.store.setValue(iter: iter, column: 4, value: Value(record.event.memo))
+        }
+
+        depositCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
+            let path = TreePath(string: path)
+
+            guard let amount = Double(newValue) else { return }
+
+            let RECORD_ID = self.records.sortedRecords[path.index].id
+            guard let record = self.records.items.first(where: { $0.id == RECORD_ID }), let iter = self.store.iterator(for: path.index)  else { return }
+
+            record.event.amount = amount
+            record.event.type = .deposit
+
+            self.store.setValue(iter: iter, column: 5, value: Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!))
+            self.store.setValue(iter: iter, column: 6, value: Value("N/A"))
+            self.store.setValue(iter: iter, column: 7, value: Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
+        }
+
+        withdrawalCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
+            let path = TreePath(string: path)
+
+            guard let amount = Double(newValue) else { return }
+
+            let RECORD_ID = self.records.sortedRecords[path.index].id
+            guard let record = self.records.items.first(where: { $0.id == RECORD_ID }), let iter = self.store.iterator(for: path.index)  else { return }
+
+            record.event.amount = amount
+            record.event.type = .withdrawal
+            
+            self.store.setValue(iter: iter, column: 5, value: Value("N/A"))
+            self.store.setValue(iter: iter, column: 6, value: Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!))
+            self.store.setValue(iter: iter, column: 7, value: Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
         }
         window.add(widget: scrollView!)
     }
