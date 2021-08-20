@@ -2,7 +2,6 @@ import Gtk
 import GLibObject
 import CGtk
 import GLib
-import GLibObject
 import GIO
 import Foundation
 
