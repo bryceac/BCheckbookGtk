@@ -39,15 +39,15 @@ class MainWindow: WindowModel {
         checkNumberCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)
 
-            guard let checkNumber = Int(newValue) else { return }
-
             let RECORD_ID = self.records.sortedRecords[path.index].id
             guard let record = self.records.items.first(where: { $0.id == RECORD_ID }), let iter = self.store.iterator(for: path.index)  else { return }
 
-            record.event.checkNumber = checkNumber
+            record.event.checkNumber = Int(newValue) 
 
             if let checkNumber = record.event.checkNumber {
                 self.store.setValue(iter: iter, column: 1, value: Value(checkNumber))
+            } else {
+                self.store.setValue(iter: iter, column: 1, value: Value("N/A"))
             }
         }
 
