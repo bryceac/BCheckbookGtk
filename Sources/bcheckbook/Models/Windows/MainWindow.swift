@@ -11,6 +11,7 @@ class MainWindow: WindowModel {
 
     lazy var scrollView = builder?.get("scrollView", ScrolledWindowRef.init)
 
+    // retrieve cell renderers, so that data can be manipulated inside tree view.
     lazy var checkNumberCell = builder?.get("checkNumberCellRenderer", CellRendererTextRef.init)
 
     lazy var isReconciledCell = builder?.get("reconciledCellRenderer", CellRendererToggleRef.init)
@@ -23,8 +24,10 @@ class MainWindow: WindowModel {
 
     lazy var withdrawalCell = builder?.get("withdrawalCellRenderer", CellRendererTextRef.init)
 
+    // URL for file to be read
     var fileURL: URL? = nil
-
+ 
+    // create property to house the transactions
     let records = Records()
 
     override func make(window: Window) {
@@ -48,6 +51,7 @@ class MainWindow: WindowModel {
             }
         }
 
+        // make sure data is modified appropriately for each cell
         isReconciledCell?.onToggled { [weak self] _, string in
             let path = TreePath(string: string)
 
@@ -133,9 +137,6 @@ class MainWindow: WindowModel {
 
     private func loadRecords() {
         guard let FILE_PATH = self.fileURL, let STORED_RECORDS = try? Record.load(from: FILE_PATH) else { return }
-        /* for record in STORED_RECORDS {
-             records.add(record)
-        } */
         records.items = STORED_RECORDS
     }
 
