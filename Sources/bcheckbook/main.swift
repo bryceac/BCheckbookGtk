@@ -88,12 +88,10 @@ let status = Application.run(startupHandler: { app in
 
         // Modify the souce of truth of the application
         let RECORD_ID = Records.shared.sortedRecords[path.index].id
-        guard let record = Records.shared.items.first(where: { $0.id == RECORD_ID }) else { return }
+        guard let record = Records.shared.items.first(where: { $0.id == RECORD_ID }), let iter = store.iterator(for: path.index) else { return }
         record.event.isReconciled.toggle()
-
-        // This is strong reference, only for PoC purposes.
+        
         // Modify the source of truth of the tree view
-        let iter = store.iterator(for: path.index)!
         store.setValue(iter: iter, column: 2, value: Value(record.event.isReconciled))
     }
 
