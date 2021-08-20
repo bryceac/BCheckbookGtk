@@ -15,6 +15,10 @@ class MainWindow: WindowModel {
 
     lazy var isReconciledCell = builder?.get("reconciledCellRenderer", CellRendererToggleRef.init)
 
+    lazy var vendorCell = builder?.get("vendorCellRenderer", CellRendererTextRef.init)
+
+    lazy var memoCell = builder?.get("memoCellRenderer", CellRendererTextRef.init)
+
     var fileURL: URL? = nil
 
     let records = Records()
@@ -50,6 +54,28 @@ class MainWindow: WindowModel {
 
             // Modify the source of truth of the tree view
             self?.store.setValue(iter: iter, column: 2, value: Value(record.event.isReconciled))
+        }
+
+        vendorCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
+            let path = TreePath(string: path)
+
+            let RECORD_ID = self.records.sortedRecords[path.index].id
+            guard let record = self.records.items.first(where: { $0.id == RECORD_ID }), let iter = self.store.iterator(for: path.index)  else { return }
+
+            record.event.vendor = newValue
+
+            self.store.setValue(iter: iter, column: 3, value: Value(record.event.vendor))
+        }
+
+        memoCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
+            let path = TreePath(string: path)
+
+            let RECORD_ID = self.records.sortedRecords[path.index].id
+            guard let record = self.records.items.first(where: { $0.id == RECORD_ID }), let iter = self.store.iterator(for: path.index)  else { return }
+
+            record.event.memo = newValue
+
+            self.store.setValue(iter: iter, column: 4, value: Value(record.event.memo))
         }
         window.add(widget: scrollView!)
     }
