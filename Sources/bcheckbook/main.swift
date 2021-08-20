@@ -14,11 +14,11 @@ let status = Application.run(startupHandler: { app in
         app.menubar = builder.get("menuBar", MenuModelRef.init)
     }
 }) { app in
-    guard let builder = Builder("window") else {
+    /* guard let builder = Builder("window") else {
         print("Could not build the application user interface")
         app.quit()
         return
-    }
+    } */
     app.addAction(entries: &appActionEntries, nEntries: appActionEntries.count, userData: app.ptr)
     /* let window = ApplicationWindowRef(application: app)
     window.title = "Hello, World!"
