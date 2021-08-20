@@ -30,8 +30,8 @@ class MainWindow: WindowModel {
 
             guard let checkNumber = Int(newValue) else { return }
 
-            let RECORD_ID = Records.shared.sortedRecords[path.index].id
-            guard let record = Records.shared.items.first(where: { $0.id == RECORD_ID }), let iter = self.store.iterator(for: path.index)  else { return }
+            let RECORD_ID = self.records.sortedRecords[path.index].id
+            guard let record = self.records.items.first(where: { $0.id == RECORD_ID }), let iter = self.store.iterator(for: path.index)  else { return }
 
             record.event.checkNumber = checkNumber
 
@@ -44,8 +44,8 @@ class MainWindow: WindowModel {
             let path = TreePath(string: string)
 
             // Modify the souce of truth of the application
-            let RECORD_ID = Records.shared.sortedRecords[path.index].id
-            guard let record = Records.shared.items.first(where: { $0.id == RECORD_ID }), let iter = self?.store.iterator(for: path.index) else { return }
+            let RECORD_ID = self?.records.sortedRecords[path.index].id
+            guard let record = self?.records.items.first(where: { $0.id == RECORD_ID }), let iter = self?.store.iterator(for: path.index) else { return }
             record.event.isReconciled.toggle()
 
             // Modify the source of truth of the tree view
@@ -55,10 +55,11 @@ class MainWindow: WindowModel {
     }
 
     private func loadRecords() {
-        guard let FILE_PATH = self.fileURL, let STORED_RECORDS = try? Record.load(from: self.fileURL) else { return }
-        for record in STORED_RECORDS {
+        guard let FILE_PATH = self.fileURL, let STORED_RECORDS = try? Record.load(from: FILE_PATH) else { return }
+        /* for record in STORED_RECORDS {
              records.add(record)
-        }
+        } */
+        records.items = STORED_RECORDS
     }
 
     private func loadStore() {
@@ -66,7 +67,7 @@ class MainWindow: WindowModel {
             switch record.event.type {
                 case .deposit:
                     if let checkNumber = record.event.checkNumber {
-                        store?.append(asNextRow: iterator,
+                        store.append(asNextRow: iterator,
                         Value(Event.DF.string(from: record.event.date)),
                         Value("\(checkNumber)"),
                         Value(record.event.isReconciled),
@@ -76,7 +77,7 @@ class MainWindow: WindowModel {
                         "N/A",
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
                     } else {
-                        store?.append(asNextRow: iterator,
+                        store.append(asNextRow: iterator,
                         Value(Event.DF.string(from: record.event.date)),
                         "N/A",
                         Value(record.event.isReconciled),
@@ -88,7 +89,7 @@ class MainWindow: WindowModel {
                     }
                 case .withdrawal:
                     if let checkNumber = record.event.checkNumber {
-                        store?.append(asNextRow: iterator,
+                        store.append(asNextRow: iterator,
                         Value(Event.DF.string(from: record.event.date)),
                         Value("\(checkNumber)"),
                         Value(record.event.isReconciled),
@@ -98,7 +99,7 @@ class MainWindow: WindowModel {
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
                     } else {
-                        store?.append(asNextRow: iterator,
+                        store.append(asNextRow: iterator,
                         Value(Event.DF.string(from: record.event.date)),
                         "N/A",
                         Value(record.event.isReconciled),
