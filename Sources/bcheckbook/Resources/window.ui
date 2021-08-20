@@ -76,7 +76,7 @@
           <object class="GtkTreeViewColumn" id="vendorColumn">
             <property name="title">Vendor</property>
             <child>
-              <object class="GtkCellRendererText">
+              <object class="GtkCellRendererText" id="vendorCellRenderer">
                 <property name="editable">True</property>
               </object>
               <attributes>
@@ -89,7 +89,7 @@
           <object class="GtkTreeViewColumn" id="memoColumn">
             <property name="title">Memo</property>
             <child>
-              <object class="GtkCellRendererText">
+              <object class="GtkCellRendererText" id="memoCellRenderer">
                 <property name="editable">True</property>
               </object>
               <attributes>
@@ -102,7 +102,7 @@
           <object class="GtkTreeViewColumn" id="depositColumn">
             <property name="title">Deposit</property>
             <child>
-              <object class="GtkCellRendererText">
+              <object class="GtkCellRendererText" id="depositCellRenderer">
                 <property name="editable">True</property>
               </object>
               <attributes>
@@ -115,7 +115,7 @@
           <object class="GtkTreeViewColumn" id="withdrawalColumn">
             <property name="title">Withdrawal</property>
             <child>
-              <object class="GtkCellRendererText">
+              <object class="GtkCellRendererText" id="withdrawalCellRenderer">
                 <property name="editable">True</property>
               </object>
               <attributes>
