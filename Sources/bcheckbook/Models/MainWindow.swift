@@ -53,4 +53,11 @@ class MainWindow: WindowModel {
         }
         window.add(widget: scrollView!)
     }
+
+    private func loadRecords() {
+        guard let FILE_PATH = self.fileURL, let STORED_RECORDS = try? Record.load(from: self.fileURL) else { return }
+        for record in STORED_RECORDS {
+             records.add(record)
+        }
+    }
 }

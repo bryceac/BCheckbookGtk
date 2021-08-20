@@ -9,14 +9,6 @@ var appActionEntries = [
     GActionEntry(name: g_strdup("quit"), activate: { Gtk.ApplicationRef(gpointer: $2).quit() }, parameter_type: nil, state: nil, change_state: nil, padding: (0, 0, 0))
 ]
 
-let TEST_FILE = URL(fileURLWithPath: "/home/bryce/transactions.bcheck").standardizedFileURL
-
-if let STORED_RECORDS = try? Record.load(from: TEST_FILE) {
-    for record in STORED_RECORDS {
-        Records.shared.add(record)
-    }
-}
-
 let status = Application.run(startupHandler: { app in
     if let builder = Builder("menus") {
         app.menubar = builder.get("menuBar", MenuModelRef.init)
