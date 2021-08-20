@@ -20,12 +20,12 @@ let status = Application.run(startupHandler: { app in
         return
     }
     app.addAction(entries: &appActionEntries, nEntries: appActionEntries.count, userData: app.ptr)
-    let window = ApplicationWindowRef(application: app)
+    /* let window = ApplicationWindowRef(application: app)
     window.title = "Hello, World!"
     window.setDefaultSize(width: 800, height: 600)
     
     let scrollView = builder.get("scrollView", ScrolledWindowRef.init)
-    /* let iterator = TreeIter()
+    let iterator = TreeIter()
     let store = ListStore(builder.get("store", Gtk.ListStoreRef.init).list_store_ptr)!
     let checkNumberColumn = builder.get("checkNumberColumn", TreeViewColumnRef.init)
     let reconciledColumn = builder.get("reconciledColumn", TreeViewColumnRef.init)
@@ -98,8 +98,8 @@ let status = Application.run(startupHandler: { app in
         store.setValue(iter: iter, column: 3, value: Value(record.event.vendor))
     } */
 
-    window.add(widget: scrollView)
-    /* for record in Records.shared.sortedRecords {
+    /* window.add(widget: scrollView)
+    for record in Records.shared.sortedRecords {
         switch record.event.type {
             case .deposit:
                 if let checkNumber = record.event.checkNumber {
@@ -146,8 +146,8 @@ let status = Application.run(startupHandler: { app in
                     Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
                 }
         }
-    } */
-    window.showAll()
+    }
+    window.showAll() */
 }
 
 guard let status = status else {
