@@ -31,7 +31,7 @@ let status = Application.run(startupHandler: { app in
     app.addAction(entries: &appActionEntries, nEntries: appActionEntries.count, userData: app.ptr)
     let window = ApplicationWindowRef(application: app)
     window.title = "Hello, World!"
-    window.setDefaultSize(width: 600, height: 600)
+    window.setDefaultSize(width: 800, height: 600)
     
     let scrollView = builder.get("scrollView", ScrolledWindowRef.init)
     let iterator = TreeIter()
