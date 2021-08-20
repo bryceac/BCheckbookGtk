@@ -52,7 +52,7 @@
           <object class="GtkTreeViewColumn" id="checkNumberColumn">
             <property name="title">Check #</property>
             <child>
-              <object class="GtkCellRendererText">
+              <object class="GtkCellRendererText" id="checkNumberCellRenderer">
                 <property name="editable">True</property>
               </object>
               <attributes>
