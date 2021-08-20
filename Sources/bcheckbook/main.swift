@@ -31,7 +31,7 @@ let status = Application.run(startupHandler: { app in
     app.addAction(entries: &appActionEntries, nEntries: appActionEntries.count, userData: app.ptr)
     let window = ApplicationWindowRef(application: app)
     window.title = "Hello, World!"
-    window.setDefaultSize(width: 320, height: 240)
+    window.setDefaultSize(width: 600, height: 600)
     
     let scrollView = builder.get("scrollView", ScrolledWindowRef.init)
     let iterator = TreeIter()
@@ -90,7 +90,7 @@ let status = Application.run(startupHandler: { app in
         let RECORD_ID = Records.shared.sortedRecords[path.index].id
         guard let record = Records.shared.items.first(where: { $0.id == RECORD_ID }), let iter = store.iterator(for: path.index) else { return }
         record.event.isReconciled.toggle()
-        
+
         // Modify the source of truth of the tree view
         store.setValue(iter: iter, column: 2, value: Value(record.event.isReconciled))
     }
