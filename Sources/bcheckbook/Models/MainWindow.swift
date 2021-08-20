@@ -54,6 +54,13 @@ class MainWindow: WindowModel {
         window.add(widget: scrollView!)
     }
 
+    override func windowWillOpen() {
+        super.windowWillOpen()
+
+        fileURL = URL(fileURLWithPath: "/home/bryce/transactions.bcheck").standardizedFileURL
+        updateViews()
+    }
+
     func updateViews() {
         if records.items.isEmpty {
             loadRecords()
