@@ -29,6 +29,7 @@ class MainWindow: WindowModel {
     var fileURL: URL? = nil {
         didSet {
             loadRecords()
+            updateViews()
         }
     }
  
