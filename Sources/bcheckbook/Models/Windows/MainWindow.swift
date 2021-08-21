@@ -50,7 +50,6 @@ class MainWindow: WindowModel {
             } else {
                 self.store.setValue(iter: iter, column: 1, value: Value("N/A"))
             } */
-            self.store.clear()
             self.updateViews()
         }
 
@@ -64,7 +63,6 @@ class MainWindow: WindowModel {
             guard let record = self?.records.items.first(where: { $0.id == RECORD_ID }) else { return }
             record.event.isReconciled.toggle()
 
-            self?.store.clear()
             // Modify the source of truth of the tree view
             // self?.store.setValue(iter: iter, column: 2, value: Value(record.event.isReconciled))
             self?.updateViews()
@@ -79,8 +77,6 @@ class MainWindow: WindowModel {
 
             record.event.vendor = newValue
 
-            self.store.clear()
-
             // self.store.setValue(iter: iter, column: 3, value: Value(record.event.vendor))
 
             self.updateViews()
@@ -94,8 +90,6 @@ class MainWindow: WindowModel {
             guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
 
             record.event.memo = newValue
-
-            self.store.clear()
 
             // self.store.setValue(iter: iter, column: 4, value: Value(record.event.memo))
             self.updateViews()
@@ -116,7 +110,6 @@ class MainWindow: WindowModel {
             /* self.store.setValue(iter: iter, column: 5, value: Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!))
             self.store.setValue(iter: iter, column: 6, value: Value("N/A"))
             self.store.setValue(iter: iter, column: 7, value: Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!)) */
-            self.store.clear()
             self.updateViews()
         }
 
@@ -135,7 +128,6 @@ class MainWindow: WindowModel {
             /* self.store.setValue(iter: iter, column: 5, value: Value("N/A"))
             self.store.setValue(iter: iter, column: 6, value: Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!))
             self.store.setValue(iter: iter, column: 7, value: Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!)) */
-            self.store.clear()
             self.updateViews()
         }
         window.add(widget: scrollView!)
@@ -153,6 +145,8 @@ class MainWindow: WindowModel {
             loadRecords()
         }
 
+        // clear List Store, so that reloading data is made easy.
+        store.clear()
         loadStore()
     }
 
