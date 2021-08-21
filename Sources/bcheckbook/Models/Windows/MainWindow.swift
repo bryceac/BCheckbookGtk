@@ -120,7 +120,7 @@ class MainWindow: WindowModel {
         super.windowWillOpen()
 
         fileURL = URL(fileURLWithPath: "/home/bryce/transactions.bcheck").standardizedFileURL
-        updateViews()
+        // updateViews()
     }
 
     func updateViews() {
