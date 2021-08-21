@@ -25,7 +25,12 @@ class MainWindow: WindowModel {
     lazy var withdrawalCell = builder?.get("withdrawalCellRenderer", CellRendererTextRef.init)
 
     // URL for file to be read
-    var fileURL: URL? = nil
+    // var fileURL: URL? = nil
+    var fileURL: URL? = nil {
+        didSet {
+            loadRecords()
+        }
+    }
  
     // create property to house the transactions
     let records = Records()
@@ -118,11 +123,6 @@ class MainWindow: WindowModel {
     }
 
     func updateViews() {
-        if records.items.isEmpty {
-            loadRecords()
-        }
-
-        // clear List Store, so that reloading data is made easy.
         store.clear()
         loadStore()
     }
