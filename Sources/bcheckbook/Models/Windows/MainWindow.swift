@@ -118,9 +118,6 @@ class MainWindow: WindowModel {
 
     override func windowWillOpen() {
         super.windowWillOpen()
-
-        // fileURL = URL(fileURLWithPath: "/home/bryce/transactions.bcheck").standardizedFileURL
-        // updateViews()
     }
 
     func updateViews() {
