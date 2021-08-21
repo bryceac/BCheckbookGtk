@@ -40,15 +40,18 @@ class MainWindow: WindowModel {
             let path = TreePath(string: path)
 
             let RECORD_ID = self.records.sortedRecords[path.index].id
-            guard let record = self.records.items.first(where: { $0.id == RECORD_ID }), let iter = self.store.iterator(for: path.index)  else { return }
+            // guard let record = self.records.items.first(where: { $0.id == RECORD_ID }), let iter = self.store.iterator(for: path.index)  else { return }
+            guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
 
             record.event.checkNumber = Int(newValue) 
 
-            if let checkNumber = record.event.checkNumber {
+            /* if let checkNumber = record.event.checkNumber {
                 self.store.setValue(iter: iter, column: 1, value: Value(checkNumber))
             } else {
                 self.store.setValue(iter: iter, column: 1, value: Value("N/A"))
-            }
+            } */
+            self.store.clear()
+            self.updateViews()
         }
 
         // make sure data is modified appropriately for each cell
@@ -57,33 +60,45 @@ class MainWindow: WindowModel {
 
             // Modify the souce of truth of the application
             let RECORD_ID = self?.records.sortedRecords[path.index].id
-            guard let record = self?.records.items.first(where: { $0.id == RECORD_ID }), let iter = self?.store.iterator(for: path.index) else { return }
+            // guard let record = self?.records.items.first(where: { $0.id == RECORD_ID }), let iter = self?.store.iterator(for: path.index) else { return }
+            guard let record = self?.records.items.first(where: { $0.id == RECORD_ID }) else { return }
             record.event.isReconciled.toggle()
 
+            self?.store.clear()
             // Modify the source of truth of the tree view
-            self?.store.setValue(iter: iter, column: 2, value: Value(record.event.isReconciled))
+            // self?.store.setValue(iter: iter, column: 2, value: Value(record.event.isReconciled))
+            self?.updateViews()
         }
 
         vendorCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)
 
             let RECORD_ID = self.records.sortedRecords[path.index].id
-            guard let record = self.records.items.first(where: { $0.id == RECORD_ID }), let iter = self.store.iterator(for: path.index)  else { return }
+            // guard let record = self.records.items.first(where: { $0.id == RECORD_ID }), let iter = self.store.iterator(for: path.index)  else { return }
+            guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
 
             record.event.vendor = newValue
 
-            self.store.setValue(iter: iter, column: 3, value: Value(record.event.vendor))
+            self.store.clear()
+
+            // self.store.setValue(iter: iter, column: 3, value: Value(record.event.vendor))
+
+            self.updateViews()
         }
 
         memoCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)
 
             let RECORD_ID = self.records.sortedRecords[path.index].id
-            guard let record = self.records.items.first(where: { $0.id == RECORD_ID }), let iter = self.store.iterator(for: path.index)  else { return }
+            // guard let record = self.records.items.first(where: { $0.id == RECORD_ID }), let iter = self.store.iterator(for: path.index)  else { return }
+            guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
 
             record.event.memo = newValue
 
-            self.store.setValue(iter: iter, column: 4, value: Value(record.event.memo))
+            self.store.clear()
+
+            // self.store.setValue(iter: iter, column: 4, value: Value(record.event.memo))
+            self.updateViews()
         }
 
         depositCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
@@ -92,14 +107,17 @@ class MainWindow: WindowModel {
             guard let amount = Double(newValue) else { return }
 
             let RECORD_ID = self.records.sortedRecords[path.index].id
-            guard let record = self.records.items.first(where: { $0.id == RECORD_ID }), let iter = self.store.iterator(for: path.index)  else { return }
+            // guard let record = self.records.items.first(where: { $0.id == RECORD_ID }), let iter = self.store.iterator(for: path.index)  else { return }
+            guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
 
             record.event.amount = amount
             record.event.type = .deposit
 
-            self.store.setValue(iter: iter, column: 5, value: Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!))
+            /* self.store.setValue(iter: iter, column: 5, value: Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!))
             self.store.setValue(iter: iter, column: 6, value: Value("N/A"))
-            self.store.setValue(iter: iter, column: 7, value: Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
+            self.store.setValue(iter: iter, column: 7, value: Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!)) */
+            self.store.clear()
+            self.updateViews()
         }
 
         withdrawalCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
@@ -108,14 +126,17 @@ class MainWindow: WindowModel {
             guard let amount = Double(newValue) else { return }
 
             let RECORD_ID = self.records.sortedRecords[path.index].id
-            guard let record = self.records.items.first(where: { $0.id == RECORD_ID }), let iter = self.store.iterator(for: path.index)  else { return }
+            // guard let record = self.records.items.first(where: { $0.id == RECORD_ID }), let iter = self.store.iterator(for: path.index)  else { return }
+            guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
 
             record.event.amount = amount
             record.event.type = .withdrawal
             
-            self.store.setValue(iter: iter, column: 5, value: Value("N/A"))
+            /* self.store.setValue(iter: iter, column: 5, value: Value("N/A"))
             self.store.setValue(iter: iter, column: 6, value: Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!))
-            self.store.setValue(iter: iter, column: 7, value: Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
+            self.store.setValue(iter: iter, column: 7, value: Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!)) */
+            self.store.clear()
+            self.updateViews()
         }
         window.add(widget: scrollView!)
     }
