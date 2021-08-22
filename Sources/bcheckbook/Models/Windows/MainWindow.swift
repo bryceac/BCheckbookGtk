@@ -12,6 +12,8 @@ class MainWindow: WindowModel {
     lazy var scrollView = builder?.get("scrollView", ScrolledWindowRef.init)
 
     // retrieve cell renderers, so that data can be manipulated inside tree view.
+    lazy var dateCell = builder?.get("dateCellRenderer", CellRendererTextRef.init)
+
     lazy var checkNumberCell = builder?.get("checkNumberCellRenderer", CellRendererTextRef.init)
 
     lazy var isReconciledCell = builder?.get("reconciledCellRenderer", CellRendererToggleRef.init)
@@ -54,6 +56,19 @@ class MainWindow: WindowModel {
         }
 
         // make sure data is modified appropriately for each cell
+        dateCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
+            let path = TreePath(string: path)
+
+            guard let newDate = Event.DF.date(from: newValue) else { return } 
+
+            let RECORD_ID = self.records.sortedRecords[path.index].id
+            guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
+
+            record.event.date = newDate
+
+            self.updateViews()
+        }
+
         isReconciledCell?.onToggled { [weak self] _, string in
             let path = TreePath(string: string)
 

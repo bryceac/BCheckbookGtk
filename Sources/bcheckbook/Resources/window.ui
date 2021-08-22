@@ -39,7 +39,7 @@
           <object class="GtkTreeViewColumn" id="dateColumn">
             <property name="title">Date</property>
             <child>
-              <object class="GtkCellRendererText">
+              <object class="GtkCellRendererText" id="dateCellRenderer">
                 <property name="editable">True</property>
               </object>
               <attributes>
