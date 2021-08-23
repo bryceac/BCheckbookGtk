@@ -61,3 +61,35 @@ Not only would the experience be a little better on macOS and iOS, but it can he
 As this is currently a <abbr title="Work in Progress">WIP</abbr>, the current plan mainly involves getting basic functionality in place, like allowing users to select a save file, rather than hard coding one in, and, like the macOS application, allow editing the contents in the ListView.
 
 After that I plan to try and keep this program in sync with the Mac and iOS version as much as possible, due to how differently Swift acts in a Linux environment in some places.
+
+===Status Log===
+
+<dl>
+  <dt style="font-weight:bold">8/23/2021</dt>
+  <dd>
+  <p>Got all fields able to manipulate data properly, to an acceptable extent, with only annoyance being the date field.</p>
+  <p>Changes to data also reflect properly, unlike the macOS and iOS apps, where things would only look right after reloading a file or relaunching the application.</p>
+  </dd>
+</dl>
+
+===Contributing===
+
+If you would like to help out with this project, to help it get into a decent enough state for usage, feel free to fork this repository and make a pull request.
+
+Currently the application needs the following features to be usable by end users:
+
+<dl>
+  <dt style="font-weight:bold">Save &#38; Load System</dt>
+  <dd>
+    <p>This area has no real good documentation for the library I am using and the particular setup I have in place, where models have type methods and methods added via extension to do these operations and menu items are in a different UI file.</p>
+    <p>I need the Open, Save, and Save As items to connect either a custom function or a predefined one that can grab or set the fileURL variable and do the appropriate work (e.g. have Save call a FileChooserDialog/FileChooserNative if fileURL is nil but run the save function provided by a function defined in an array extension).</p>
+  </dd>
+  <dt style="font-weight:bold">Add/Remove transactions</dt>
+  <dd>
+    <p>Now that I am able to reload the tree view properly, it is safe to try implementing a way to add in this necessary piece of functionality. This one might require some tweaking to the user interface.</p>
+    <p>Ideally, a user should just be able to click a button and/or press a key combination to add a new entry to the list store.</p>
+    <p>Likewise, a user should just be able to click a button, press a key combination, or right-click an entry and delete the desired entry.</p>
+  </dd>
+</dl>
+
+The above are things that I may work on myself, but since this is my first foray in GTK and GUI programming for Linux, help would be much appreciated and would finally put this application in a state where I can look into how this program should be installed and work on building packages.
