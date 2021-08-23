@@ -21,7 +21,6 @@ class WindowModel {
         }
 
         self.windowWillOpen()
-        window.showAll()
     }
 
     func make(window: Window) {}
@@ -30,5 +29,7 @@ class WindowModel {
 
     func windowWillClose() {}
 
-    func run() {}
+    func run() {
+        self.window.showAll()
+    }
 }
