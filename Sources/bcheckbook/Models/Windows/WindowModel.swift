@@ -29,4 +29,6 @@ class WindowModel {
     func windowWillOpen() {}
 
     func windowWillClose() {}
+
+    func run() {}
 }
