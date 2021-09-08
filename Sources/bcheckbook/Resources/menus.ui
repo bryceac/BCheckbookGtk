@@ -13,19 +13,19 @@
             <section>
                 <item>
                     <attribute name="label" translatable="yes">Open</attribute>
-                    <attribute name="action">app.new</attribute>
+                    <attribute name="action">FileOpen</attribute>
                 </item>
             </section>
             <section>
                 <item>
                     <attribute name="label" translatable="yes">Save</attribute>
-                    <attribute name="action">app.new</attribute>
+                    <attribute name="action">FileSave</attribute>
                 </item>
             </section>
             <section>
                 <item>
                     <attribute name="label" translatable="yes">SaveAs</attribute>
-                    <attribute name="action">app.new</attribute>
+                    <attribute name="action">FileSaveAs</attribute>
                 </item>
             </section>
             <section>
