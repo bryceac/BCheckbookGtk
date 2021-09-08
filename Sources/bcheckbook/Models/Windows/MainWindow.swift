@@ -36,7 +36,7 @@ class MainWindow: WindowModel {
     }
  
     // create property to house the transactions
-    let records = Records()
+    let records = Records.shared
 
     override func make(window: Window) {
         super.make(window: window)

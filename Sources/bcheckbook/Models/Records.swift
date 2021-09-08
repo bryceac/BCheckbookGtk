@@ -8,6 +8,8 @@
 import Foundation
 
 class Records {
+    static let shared = Records()
+
     var items: [Record] {
         didSet {
             sortedRecords.forEach { record in
@@ -22,7 +24,7 @@ class Records {
         }
     }
     
-    init(withRecords records: [Record] = []) {
+    private init(withRecords records: [Record] = []) {
         items = records
         
         guard !records.isEmpty && records.count > 1 else { return }
