@@ -5,6 +5,11 @@ import Foundation
 class MainWindow: WindowModel {
     var builder: Builder? = Builder("window")
 
+    private lazy var accelGroup = {
+        let group = AccelGroupRef().link(to: AccelGroup.self)!
+        
+    }()
+
     lazy var store = ListStore(builder?.get("store", Gtk.ListStoreRef.init).list_store_ptr)!
 
     let iterator: TreeIter = TreeIter()
