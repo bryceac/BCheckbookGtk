@@ -78,7 +78,7 @@ class MainWindow: WindowModel {
             bar.append(child: fileItem)    
         }
 
-        self.application?.menubar = menuBar
+        self.application?.set(menubar: menuBar)
 
         checkNumberCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)
