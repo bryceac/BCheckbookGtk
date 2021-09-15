@@ -18,6 +18,7 @@ let status = Application.run(startupHandler: { app in
     // app.addAction(entries: &appActionEntries, nEntries: appActionEntries.count, userData: app.ptr)
     
     let main = MainWindow(window: ApplicationWindow(application: app))
+    main.application = app
 
     main.fileURL = URL(fileURLWithPath: "/home/bryce/transactions.bcheck").standardizedFileURL
 }

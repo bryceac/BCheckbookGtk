@@ -27,6 +27,8 @@ class MainWindow: WindowModel {
 
     lazy var withdrawalCell = builder?.get("withdrawalCellRenderer", CellRendererTextRef.init)
 
+    var application: ApplicationRef? = nil
+
     // URL for file to be read
     // var fileURL: URL? = nil
     var fileURL: URL? = nil {
@@ -39,7 +41,7 @@ class MainWindow: WindowModel {
     // create property to house the transactions
     let records = Records.shared
 
-    override func make(window: Window) {
+    override func make(window: Gtk.Window) {
         super.make(window: window)
 
         window.title = "Hello, World!"
@@ -68,13 +70,15 @@ class MainWindow: WindowModel {
             menu.append(child: quitItem)
         }
 
-        var fileItem = MenuItemRef(label: "File").link(to: MenuItem.self)?.apply { item in
+        var fileItem: MenuItem! = MenuItemRef(label: "File").link(to: MenuItem.self)?.apply { item in
             item.set(submenu: fileMenu)
         }
 
         var menuBar: MenuBar! = MenuBarRef().link(to: MenuBar.self)?.apply { bar in
             bar.append(child: fileItem)    
         }
+
+        self.application?.menubar = menuBar
 
         checkNumberCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)

@@ -5,7 +5,7 @@ extension to add synatic sugar for UI, as implemented by Mikolasstuchlik at the 
 https://github.com/mikolasstuchlik/BurningRingOfFire/blob/master/Sources/BurningRingOfFire/global/Widget%2BExtensions.swift
 */
 extension WidgetProtocol {
-    public func apple(_ block: (Self) -> Void) -> Self {
+    public func apply(_ block: (Self) -> Void) -> Self {
         block(self)
         return self
     }
