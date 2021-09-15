@@ -1,14 +1,10 @@
 import Gtk
+import Gdk
 import GLibObject
 import Foundation
 
 class MainWindow: WindowModel {
     var builder: Builder? = Builder("window")
-
-    private lazy var accelGroup = {
-        let group = AccelGroupRef().link(to: AccelGroup.self)!
-        
-    }()
 
     lazy var store = ListStore(builder?.get("store", Gtk.ListStoreRef.init).list_store_ptr)!
 
@@ -48,6 +44,33 @@ class MainWindow: WindowModel {
 
         window.title = "Hello, World!"
         window.setDefaultSize(width: 800, height: 600)
+
+        var accelGroup: AccelGroup! = {
+            let group = AccelGroupRef().link(to: AccelGroup.self)!
+            return group
+        }()
+
+        window.add(accelGroup: accelGroup)
+
+        var quitItem: MenuItem! = MenuItemRef(label: "Quit").link(to: MenuItem.self)?.apply { item in
+            item.addAccelerator(accelSignal: "activate",
+            accelGroup: accelGroup,
+            accelKey: Int(Gdk.KEY_q),
+            accelMods: ModifierType.controlMask,
+            accelFlags: AccelFlags.visible)
+
+            item.onActivate { [weak self] _ in
+                self?.application?.quit()
+            }
+        }
+
+        var fileMenu: Menu! = MenuRef().link(to: Menu.self)?.apply { menu in
+            menu.append(child: quitItem)
+        }
+
+        var fileItem = MenuItemRef(label: "File").link(to: MenuItem.self)?.apply { item in
+            item.set(submenu: fileMenu)
+        }
 
         checkNumberCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)
