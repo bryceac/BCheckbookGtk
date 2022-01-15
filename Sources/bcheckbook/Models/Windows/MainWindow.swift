@@ -44,7 +44,7 @@ class MainWindow: WindowModel {
 
         let listView = ListView(model: store)
 
-        scrollView.add(widget: ListView)
+        scrollView.addWithViewport(child: listView)
 
         
         window.add(widget: scrollView)
