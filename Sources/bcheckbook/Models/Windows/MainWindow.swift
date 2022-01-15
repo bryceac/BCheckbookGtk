@@ -8,7 +8,7 @@ class MainWindow: WindowModel {
 
     let iterator: TreeIter = TreeIter()
     let store = ListStore(.string, .string, .boolean, .string, .string, .string, .string, .string)
-    let listView = ListView(model: store)
+    
 
     var scrollView = ScrolledWindow()
 
@@ -41,6 +41,10 @@ class MainWindow: WindowModel {
 
         window.title = "BCheckbook"
         window.setDefaultSize(width: 800, height: 600)
+
+        let listView = ListView(model: store)
+
+        scrollView.add(widget: ListView)
 
         
         window.add(widget: scrollView)
