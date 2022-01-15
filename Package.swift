@@ -17,7 +17,8 @@ let package = Package(
             dependencies: ["Gtk"],
             resources: [
                 .process("Resources/window.ui"),
-                .process("Resources/menus.ui")
+                .process("Resources/menus.ui"),
+                .process("Resources/register.db")
             ]),
         .testTarget(
             name: "bcheckbookTests",
