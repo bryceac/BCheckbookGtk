@@ -21,6 +21,7 @@ let status = Application.run(startupHandler: { app in
     main.application = app
 
     main.fileURL = URL(fileURLWithPath: "/home/bryce/transactions.bcheck").standardizedFileURL
+    main.run()
 }
 
 guard let status = status else {
