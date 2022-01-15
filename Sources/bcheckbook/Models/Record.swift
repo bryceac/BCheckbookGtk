@@ -7,28 +7,25 @@
 
 import Foundation
 
+/// Type that represents a record in the ledger.
 class Record: Identifiable, Codable {
-    let id: String
-    var event: Event
-    var previousRecord: Record? = nil
     
-    var balance: Double {
-        var value = previousRecord?.balance ?? 0
-        
-        switch event.type {
-        case .deposit: value += event.amount
-        case .withdrawal: value -= event.amount
+    /// the record's identifier
+    let id: String
+    var event: Event {
+        didSet {
+            guard let databaseManager = DB.shared.manager else { return }
+            
+            try? databaseManager.update(record: self)
         }
-        
-        return value
     }
     
     private enum CodingKeys: String, CodingKey {
         case id, event = "transaction"
     }
     
-    init(withID id: String = UUID().uuidString, transaction: Event = Event(), previousRecord: Record? = nil) {
-        (self.id, self.event, self.previousRecord) = (id, transaction, previousRecord)
+    init(withID id: String = UUID().uuidString, transaction: Event = Event()) {
+        (self.id, self.event) = (id, transaction)
     }
     
     required convenience init(from decoder: Decoder) throws {
@@ -55,6 +52,14 @@ class Record: Identifiable, Codable {
         let DECODED_RECORDS = try JSON_DECODER.decode([Record].self, from: RECORD_DATA)
         
         return DECODED_RECORDS
+    }
+    
+    class func load(from data: Data) throws -> [Record] {
+        let JSON_DECODER = JSONDecoder()
+        
+        let SAVED_RECORDS = try JSON_DECODER.decode([Record].self, from: data)
+        
+        return SAVED_RECORDS
     }
 }
 
@@ -89,8 +94,17 @@ extension Array where Element == Record {
         #endif
     }
     
+    var data: Data? {
+        let JSON_ENCODER = JSONEncoder()
+        JSON_ENCODER.outputFormatting = .prettyPrinted
+        
+        guard let ENCODED_RECORDS = try? JSON_ENCODER.encode(self) else { return nil }
+        
+        return ENCODED_RECORDS
+    }
+    
     func element(before record: Record) -> Record? {
-        guard self.first! != record else { return nil }
+        guard let firstRecord = self.first, firstRecord != record else { return nil }
         guard let INDEX = self.firstIndex(of: record) else { return nil }
         
         let PREVIOUS_INDEX = self.index(before: INDEX)

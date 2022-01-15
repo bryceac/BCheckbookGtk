@@ -8,15 +8,7 @@
 import Foundation
 
 class Records {
-    static let shared = Records()
-
-    var items: [Record] {
-        didSet {
-            sortedRecords.forEach { record in
-                record.previousRecord = items.element(before: record)
-            }
-        }
-    }
+    var items: [Record]
     
     var sortedRecords: [Record] {
         return items.sorted { firstRecord, secondRecord in
@@ -24,33 +16,36 @@ class Records {
         }
     }
     
-    private init(withRecords records: [Record] = []) {
-        items = records
-        
-        guard !records.isEmpty && records.count > 1 else { return }
-        
-        for index in records.indices where index != records.startIndex {
-            let PREVIOUS_INDEX = records.index(before: index)
-            
-            records[index].previousRecord = records[PREVIOUS_INDEX]
+    var balances: [Record: Double] {
+        return sortedRecords.reduce(into: [Record: Double]()) { balances, record in
+            guard let databaseManager = DB.shared.manager else { return }
+            balances[record] = try? databaseManager.balance(for: record)
         }
+    }
+    
+    init(withRecords records: [Record] = []) {
+        items = records
     }
     
     func add(_ record: Record) {
         items.append(record)
     }
     
+    func add(_ records: [Record]) {
+        items += records
+    }
+    
     func remove(at index: Int) {
         items.remove(at: index)
     }
     
-    func clear() {
-        items.removeAll()
+    func remove(_ record: Record) {
+        guard let RECORD_INDEX = self.items.firstIndex(of: record) else { return }
+        
+        self.remove(at: RECORD_INDEX)
     }
     
-    func element(matching record: Record) -> Record? {
-        guard items.contains(record) else { return nil }
-        
-        return items.first(where: { $0 == record })
+    func clear() {
+        items.removeAll()
     }
 }
