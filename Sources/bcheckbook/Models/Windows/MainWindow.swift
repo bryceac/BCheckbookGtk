@@ -86,7 +86,7 @@ class MainWindow: WindowModel {
                         Value(record.event.memo),
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
                         "N/A",
-                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: 0.0))!))
                     }
                 case .withdrawal:
                     if let checkNumber = record.event.checkNumber {
@@ -98,7 +98,7 @@ class MainWindow: WindowModel {
                         Value(record.event.memo),
                         "N/A",
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
-                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: 0.0))!))
                     } else {
                         store.append(asNextRow: iterator,
                         Value(Event.DF.string(from: record.event.date)),
