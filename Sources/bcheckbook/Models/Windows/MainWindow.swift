@@ -6,8 +6,6 @@ import Foundation
 class MainWindow: WindowModel {
     let records = Records()
 
-    lazy var store = ListStore(builder?.get("store", Gtk.ListStoreRef.init).list_store_ptr)!
-
     let iterator: TreeIter = TreeIter()
     let store = ListStore(.string, .string, .boolean, .string, .string, .string, .string, .string)
     let listView = ListView(model: store)
@@ -20,7 +18,6 @@ class MainWindow: WindowModel {
         ("Reconciled", "active", CellRendererToggle()),
         ("Vendor", "text", CellRendererText()),
         ("Memo", "text", CellRendererText()),
-        ("Category", "text", CellRendererText()),
         ("Deposit", "text", CellRendererText()),
         ("Withdrawal", "text", CellRendererText()),
         ("Balance", "text", CellRendererText())
@@ -46,7 +43,7 @@ class MainWindow: WindowModel {
         window.setDefaultSize(width: 800, height: 600)
 
         
-        window.add(widget: scrollView!)
+        window.add(widget: scrollView)
     }
 
     override func windowWillOpen() {
@@ -76,7 +73,7 @@ class MainWindow: WindowModel {
                         Value(record.event.memo),
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
                         "N/A",
-                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: 0.0))!))
                     } else {
                         store.append(asNextRow: iterator,
                         Value(Event.DF.string(from: record.event.date)),
@@ -108,7 +105,7 @@ class MainWindow: WindowModel {
                         Value(record.event.memo),
                         "N/A",
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
-                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: 0.0))!))
                     }
             }
         }
