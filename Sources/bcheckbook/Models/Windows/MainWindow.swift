@@ -10,7 +10,7 @@ class MainWindow: WindowModel {
     let store = ListStore(.string, .string, .boolean, .string, .string, .string, .string, .string)
     let listView = ListView(model: store)
 
-    lazy var scrollView = ScrolledWindow()
+    var scrollView = ScrolledWindow()
 
     let columns = [
         ("Date", "text", CellRendererText()),
