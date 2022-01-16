@@ -136,7 +136,7 @@ class MainWindow: WindowModel {
 
         categoryCell.set(property: 
         .editable, value: true)
-
+        categoryCell.set(property: .model, value: Value(categoryStore))
         categoryCell.set(property: .textColumn, value: 0)
         categoryCell.set(property: .hasEntry, value: true)
 
