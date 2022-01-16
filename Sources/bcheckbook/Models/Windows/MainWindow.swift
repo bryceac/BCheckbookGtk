@@ -43,6 +43,7 @@ class MainWindow: WindowModel {
         window.setDefaultSize(width: 800, height: 600)
 
         let listView = ListView(model: store)
+        listView.append(columns)
 
         scrollView.addWithViewport(child: listView)
 
@@ -52,6 +53,8 @@ class MainWindow: WindowModel {
 
     override func windowWillOpen() {
         super.windowWillOpen()
+        loadRecords()
+        loadStore()
     }
 
     func updateViews() {
