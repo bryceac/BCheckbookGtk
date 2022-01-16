@@ -7,7 +7,7 @@ class MainWindow: WindowModel {
     let records = Records()
 
     let iterator: TreeIter = TreeIter()
-    let store = ListStore(.string, .string, .boolean, .string, .string, .string, .string, .string)
+    let store = ListStore(.string, .string, .boolean, .string, .string, .string, .string, .string, .string)
     
 
     var scrollView = ScrolledWindow()
@@ -18,6 +18,7 @@ class MainWindow: WindowModel {
         ("Reconciled", "active", CellRendererToggle()),
         ("Vendor", "text", CellRendererText()),
         ("Memo", "text", CellRendererText()),
+        ("Category", "text", CellRendererText()),
         ("Deposit", "text", CellRendererText()),
         ("Withdrawal", "text", CellRendererText()),
         ("Balance", "text", CellRendererText())
@@ -78,6 +79,7 @@ class MainWindow: WindowModel {
                         Value(record.event.isReconciled),
                         Value(record.event.vendor),
                         Value(record.event.memo),
+                        Value(record.event.category ?? "Uncategorized"),
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
                         "N/A",
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: 0.0))!))
@@ -88,6 +90,7 @@ class MainWindow: WindowModel {
                         Value(record.event.isReconciled),
                         Value(record.event.vendor),
                         Value(record.event.memo),
+                        Value(record.event.category ?? "Uncategorized"),
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
                         "N/A",
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: 0.0))!))
@@ -100,6 +103,7 @@ class MainWindow: WindowModel {
                         Value(record.event.isReconciled),
                         Value(record.event.vendor),
                         Value(record.event.memo),
+                        Value(record.event.category ?? "Uncategorized"),
                         "N/A",
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: 0.0))!))
@@ -110,6 +114,7 @@ class MainWindow: WindowModel {
                         Value(record.event.isReconciled),
                         Value(record.event.vendor),
                         Value(record.event.memo),
+                        Value(record.event.category ?? "Uncategorized"),
                         "N/A",
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: 0.0))!))
