@@ -9,14 +9,19 @@ class MainWindow: WindowModel {
     let iterator: TreeIter = TreeIter()
     let store = ListStore(.string, .string, .boolean, .string, .string, .string, .string, .string, .string)
 
+    let categoryStore = ListStore(.string)
+    let categoryIterator = TreeIter()
+
     let dateCell = CellRendererText()
     let checkNumberCell = CellRendererText()
     let reconciledCell = CellRendererToggle()
     let vendorCell = CellRendererText()
     let memoCell = CellRendererText()
-    let categoryCell = CellRendererText()
+    let categoryCell = CellRendererCombo()
     let depositCell = CellRendererText()
     let withdrawalCell = CellRendererText()
+
+    var categories = ["Hello", "World", "7"]
     
 
     var scrollView = ScrolledWindow()
@@ -37,6 +42,10 @@ class MainWindow: WindowModel {
 
         window.title = "BCheckbook"
         window.setDefaultSize(width: 800, height: 600)
+
+        for category in categories {
+            categoryStore.append(asNextRow: categoryIterator, values: [Value(category)])
+        }
 
         let columns = [
         ("Date", "text", dateCell),
@@ -127,6 +136,9 @@ class MainWindow: WindowModel {
 
         categoryCell.set(property: 
         .editable, value: true)
+
+        categoryCell.set(property: .textColumn, value: 0)
+        categoryCell.set(property: .hasEntry, value: true)
 
         categoryCell.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path) 
