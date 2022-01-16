@@ -44,7 +44,7 @@ class MainWindow: WindowModel {
         window.setDefaultSize(width: 800, height: 600)
 
         for category in categories {
-            categoryStore.append(asNextRow: categoryIterator, values: [Value(category)])
+            categoryStore.append(asNextRow: categoryIterator, Value(category))
         }
 
         let columns = [
