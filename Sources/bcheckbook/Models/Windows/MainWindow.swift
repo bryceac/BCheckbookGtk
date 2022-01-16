@@ -158,6 +158,25 @@ class MainWindow: WindowModel {
             self.updateViews()
         }
 
+        withdrawalCell.set(property: .editable, value: true)
+
+        withdrawalCell.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
+            let path = TreePath(string: path)
+
+            let RECORD_ID = self.records.sortedRecords[path.index].id
+            guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
+
+            if let newAmount = Double(newValue) {
+                record.event.amount = newAmount
+            } else if let amountNumber = Event.CURRENCY_FORMAT.number(from: newValue) {
+                record.event.amount = amountNumber.doubleValue
+            }
+
+            record.event.type = .withdrawal
+            
+            self.updateViews()
+        }
+
         scrollView.addWithViewport(child: listView)
 
         
