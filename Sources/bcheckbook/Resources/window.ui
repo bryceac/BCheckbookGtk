@@ -2,6 +2,7 @@
 <!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
+  <!-- create list store for table column data. -->
   <object class="GtkListStore" id="store">
     <columns>
       <!-- column-name gchararray -->
@@ -20,21 +21,34 @@
       <column type="gchararray"/>
       <!-- column-name gchararray6 -->
       <column type="gchararray"/>
+      <!-- column-name gchararray7 -->
+      <column type="gchararray"/>
     </columns>
-  </object>
+  </object> <!-- close list store for table column data-->
+  <!-- create list store to hold categories -->
+  <object class="GtkListStore" id="categoryStore">
+    <columns>
+      <column type="gchararray"/>
+    </columns>
+  </object> <!-- close category list store -->
+  <!-- create scroll area -->
   <object class="GtkScrolledWindow" id="scrollView">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="hexpand">True</property>
     <property name="vexpand">True</property>
+    <!-- add tree view to scroll area -->
     <child>
+      <!-- create tree view -->
       <object class="GtkTreeView" id="treeView">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="model">store</property>
+        <!-- add child to deal with selection -->
         <child internal-child="selection">
           <object class="GtkTreeSelection"/>
-        </child>
+        </child> <!-- close selection child -->
+        <!-- add column for date -->
         <child>
           <object class="GtkTreeViewColumn" id="dateColumn">
             <property name="title">Date</property>
@@ -47,7 +61,8 @@
               </attributes>
             </child>
           </object>
-        </child>
+        </child> <!-- close date column -->
+        <!-- add column for check number -->
         <child>
           <object class="GtkTreeViewColumn" id="checkNumberColumn">
             <property name="title">Check #</property>
@@ -60,7 +75,8 @@
               </attributes>
             </child>
           </object>
-        </child>
+        </child> <!-- close check number column -->
+        <!-- add column for reconciliation-->
         <child>
           <object class="GtkTreeViewColumn" id="reconciledColumn">
             <property name="title">Reconciled</property>
@@ -71,7 +87,8 @@
               </attributes>
             </child>
           </object>
-        </child>
+        </child> <!-- close reconciliation column -->
+        <!-- create column for vendor -->
         <child>
           <object class="GtkTreeViewColumn" id="vendorColumn">
             <property name="title">Vendor</property>
@@ -84,7 +101,8 @@
               </attributes>
             </child>
           </object>
-        </child>
+        </child> <!-- close vendor column -->
+        <!-- create column for memo -->
         <child>
           <object class="GtkTreeViewColumn" id="memoColumn">
             <property name="title">Memo</property>
@@ -97,7 +115,24 @@
               </attributes>
             </child>
           </object>
-        </child>
+        </child> <!-- close memo column -->
+        <!-- create category column -->
+        <child>
+          <object class="GtkTreeViewColumn" id="categoryColumn">
+            <property name="title">Category</property>
+            <child>
+              <object class="GtkCellRendererCombo" id="categoryCellRenderer">
+                <property name="editable">True</property>
+                <property name="has-entry">True</property>
+                <property name="model">categoryStore</property>
+              </object>
+              <attributes>
+                <attribute name="text">5</attribute>
+              </attributes>
+            </child>
+          </object>
+        </child> <!-- close category column -->
+        <!-- create deposit column -->
         <child>
           <object class="GtkTreeViewColumn" id="depositColumn">
             <property name="title">Deposit</property>
@@ -106,11 +141,12 @@
                 <property name="editable">True</property>
               </object>
               <attributes>
-                <attribute name="text">5</attribute>
+                <attribute name="text">6</attribute>
               </attributes>
             </child>
           </object>
-        </child>
+        </child> <!-- close deposit column -->
+        <!-- create column for withdrawals -->
         <child>
           <object class="GtkTreeViewColumn" id="withdrawalColumn">
             <property name="title">Withdrawal</property>
@@ -119,23 +155,24 @@
                 <property name="editable">True</property>
               </object>
               <attributes>
-                <attribute name="text">6</attribute>
+                <attribute name="text">7</attribute>
               </attributes>
             </child>
           </object>
-        </child>
+        </child> <!-- close withdrawal column -->
+        <!-- create column to hold balance -->
         <child>
           <object class="GtkTreeViewColumn" id="balanceColumn">
             <property name="title">Balance</property>
             <child>
               <object class="GtkCellRendererText"/>
               <attributes>
-                <attribute name="text">7</attribute>
+                <attribute name="text">8</attribute>
               </attributes>
             </child>
           </object>
-        </child>
-      </object>
-    </child>
-  </object>
+        </child> <!-- close balance column -->
+      </object> <!-- close tree view -->
+    </child> <!-- close child containing tree view -->
+  </object> <!-- close scroll area -->
 </interface>
