@@ -125,6 +125,7 @@
                 <property name="editable">True</property>
                 <property name="has-entry">True</property>
                 <property name="model">categoryStore</property>
+                <property name="text-column">0</property>
               </object>
               <attributes>
                 <attribute name="text">5</attribute>
