@@ -14,7 +14,14 @@ class MainWindow: WindowModel {
     let categoryIterator = TreeIter()
 
     lazy var mainArea = builder?.get("mainBox", BoxRef.init)
-    // lazy var scrollView = builder?.get("scrollView", ScrolledWindowRef.init)
+
+    // retrieve buttons, so that signals can be handled
+    lazy var importButton = builder?.get("importButton", ButtonRef.init)!
+    lazy var exportButton = builder?.get("exportButton", ButtonRef.init)!
+
+    lazy var addButton = builder?.get("addTransactionButton", ButtonRef.init)!
+    lazy var removeButton = builder?.get("removeTransactionButton", ButtonRef.init)!
+
 
     // retrieve cell renderers, so that data can be manipulated inside tree view.
     lazy var dateCell = builder?.get("dateCellRenderer", CellRendererTextRef.init)
