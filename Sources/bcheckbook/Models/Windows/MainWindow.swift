@@ -116,7 +116,13 @@ class MainWindow: WindowModel {
             let RECORD_ID = self.records.sortedRecords[path.index].id
             guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
 
-            record.event.category = newValue
+            if newValue.isEmpty || newValue != "Uncategorized" {
+                record.event.category = nil
+            } else {
+                record.event.category = newValue
+            }
+
+            
 
             self.updateViews()
 
