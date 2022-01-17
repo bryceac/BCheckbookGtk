@@ -132,6 +132,9 @@ class MainWindow: WindowModel {
             self.updateCategoryList()
         }
 
+        categoryCell?.onChanged{ (unownedSelf: CellRendererComboRef, path: String, selectedIterator: TreeIterRef) in
+        }
+
         depositCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)
 
