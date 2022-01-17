@@ -52,15 +52,14 @@
             <property name="label">Import Transactions</property>
           </object>
         </child> <!-- close import button area -->
-        <!-- add button to add transactions -->
+        <!-- add export button -->
         <child>
-          <!-- create box for stuff held in top right-->
           <object class="GtkButton" id="exportButton">
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="label">Export Transactions</property>
           </object>
-        </child> <!-- close add transaction area -->
+        </child> <!-- close export transactions area -->
       </object>
     </child> <!-- close top bar area -->
     <!-- create are for main content -->
