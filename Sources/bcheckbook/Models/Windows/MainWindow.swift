@@ -41,46 +41,12 @@ class MainWindow: WindowModel {
     }
  
     // create property to house the transactions
-    let records = Records.shared
+    let records = Records()
 
     override func make(window: Gtk.Window) {
         super.make(window: window)
 
         window.title = "Hello, World!"
-        window.setDefaultSize(width: 800, height: 600)
-
-        var accelGroup: AccelGroup! = {
-            let group = AccelGroupRef().link(to: AccelGroup.self)!
-            return group
-        }()
-
-        window.add(accelGroup: accelGroup)
-
-        var quitItem: MenuItem! = MenuItemRef(label: "Quit").link(to: MenuItem.self)?.apply { item in
-            item.addAccelerator(accelSignal: "activate",
-            accelGroup: accelGroup,
-            accelKey: Int(Gdk.KEY_q),
-            accelMods: ModifierType.controlMask,
-            accelFlags: AccelFlags.visible)
-
-            item.onActivate { [weak self] _ in
-                self?.application?.quit()
-            }
-        }
-
-        var fileMenu: Menu! = MenuRef().link(to: Menu.self)?.apply { menu in
-            menu.append(child: quitItem)
-        }
-
-        var fileItem: MenuItem! = MenuItemRef(label: "File").link(to: MenuItem.self)?.apply { item in
-            item.set(submenu: fileMenu)
-        }
-
-        var menuBar: MenuBar! = MenuBarRef().link(to: MenuBar.self)?.apply { bar in
-            bar.append(child: fileItem)    
-        }
-
-        self.application?.set(menubar: menuBar)
 
         checkNumberCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)
@@ -194,9 +160,10 @@ class MainWindow: WindowModel {
                         Value(record.event.isReconciled),
                         Value(record.event.vendor),
                         Value(record.event.memo),
+                        Value(record.event.category ?? "Uuncategorized"),
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
                         "N/A",
-                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: 0.0))!))
                     } else {
                         store.append(asNextRow: iterator,
                         Value(Event.DF.string(from: record.event.date)),
@@ -204,9 +171,10 @@ class MainWindow: WindowModel {
                         Value(record.event.isReconciled),
                         Value(record.event.vendor),
                         Value(record.event.memo),
+                        Value(record.event.category ?? "Uncategorized"),
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
                         "N/A",
-                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: 0.0))!))
                     }
                 case .withdrawal:
                     if let checkNumber = record.event.checkNumber {
@@ -216,9 +184,10 @@ class MainWindow: WindowModel {
                         Value(record.event.isReconciled),
                         Value(record.event.vendor),
                         Value(record.event.memo),
+                        Value(record.event.category ?? "Uncategorized"),
                         "N/A",
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
-                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: 0.0))!))
                     } else {
                         store.append(asNextRow: iterator,
                         Value(Event.DF.string(from: record.event.date)),
@@ -226,9 +195,10 @@ class MainWindow: WindowModel {
                         Value(record.event.isReconciled),
                         Value(record.event.vendor),
                         Value(record.event.memo),
+                        Value(record.event.category ?? "'Uncategorized"),
                         "N/A",
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
-                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: 0.0))!))
                     }
             }
         }
