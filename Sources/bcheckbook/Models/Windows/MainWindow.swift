@@ -53,6 +53,7 @@ class MainWindow: WindowModel {
         super.make(window: window)
 
         window.title = "Hello, World!"
+        window.setDefaultSize(width: 800, height: 600)
 
         checkNumberCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)
