@@ -23,7 +23,7 @@ class DB {
         
         url = DOCUMENTS_DIRECTORY.appendingPathComponent("register").appendingPathExtension("db")
         
-        if !FileManager.default.fileExists(atPath: url.absoluteString), let BUNDLE_PATH = Bundle.main.url(forResource: url.deletingPathExtension().lastPathComponent, withExtension: url.pathExtension) {
+        if !FileManager.default.fileExists(atPath: url.absoluteString), let BUNDLE_PATH = Bundle.module.url(forResource: url.deletingPathExtension().lastPathComponent, withExtension: url.pathExtension) {
             try? FileManager.default.copyItem(at: BUNDLE_PATH, to: url)
         }
         
