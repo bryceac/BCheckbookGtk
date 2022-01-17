@@ -21,6 +21,8 @@ class MainWindow: WindowModel {
 
     lazy var vendorCell = builder?.get("vendorCellRenderer", CellRendererTextRef.init)
 
+    lazy var categoryCell = builder?.get("categoryCellRenderer", CellRendererComboRef.init)
+
     lazy var memoCell = builder?.get("memoCellRenderer", CellRendererTextRef.init)
 
     lazy var depositCell = builder?.get("depositCellRenderer", CellRendererTextRef.init)
