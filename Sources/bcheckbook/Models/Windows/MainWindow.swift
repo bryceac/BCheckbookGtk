@@ -7,6 +7,7 @@ class MainWindow: WindowModel {
     var builder: Builder? = Builder("window")
 
     lazy var store = ListStore(builder?.get("store", Gtk.ListStoreRef.init).list_store_ptr)!
+    lazy var categoryStore = ListStore(builder?.get("categoryStore", Gtk.ListStoreRef.init).list_store_ptr)!
 
     let iterator: TreeIter = TreeIter()
 
