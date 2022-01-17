@@ -21,7 +21,7 @@ let package = Package(
             resources: [
                 .process("Resources/window.ui"),
                 .process("Resources/menus.ui"),
-                .copy("Resources/register.db")
+                .process("Resources/register.db")
             ]),
         .testTarget(
             name: "bcheckbookTests",
