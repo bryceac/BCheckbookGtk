@@ -44,37 +44,58 @@
         <property name="hexpand">True</property>
         <property name="vexpand">False</property>
         <property name="orientation">horizontal</property>
-        <!-- add import button -->
+        <!-- create area for top left -->
         <child>
-          <object class="GtkButton" id="importButton">
+          <object class="GtkBox" id="topLeft">
             <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="label">Import Transactions</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">False</property>
+            <property name="halign">start</property>
+            <property name="orientation">horizontal</property>
+            <!-- add import button -->
+            <child>
+              <object class="GtkButton" id="importButton">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="label">Import Transactions</property>
+              </object>
+              </child> <!-- close import button area -->
+              <!-- add export button -->
+              <child>
+                <object class="GtkButton" id="exportButton">
+                  <property name="visible">True</property>
+                  <property name="can-focus">True</property>
+                  <property name="label">Export Transactions</property>
+                </object>
+              </child> <!-- close export transactions area -->
           </object>
-        </child> <!-- close import button area -->
-        <!-- add export button -->
+        </child> <!-- close top left area -->
+        <!-- create area for top right -->
         <child>
-          <object class="GtkButton" id="exportButton">
+          <object class="GtkBox" id="topRight">
             <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="label">Export Transactions</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">False</property>
+            <property name="halign">end</property>
+            <property name="orientation">horizontal</property>
+            <!-- add button to add transaction to view -->
+            <child>
+              <object class="GtkButton" id="addTransactionButton">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="label">+</property>
+              </object>
+            </child> <!-- close child for add button -->
+            <!-- add remove remove button -->
+            <child>
+              <object class="GtkButton" id="removeTransactionButton">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="label">-</property>
+              </object>
+            </child> <!-- close remove button area -->
           </object>
-        </child> <!-- close export transactions area -->
-        <!-- add button to add transaction to view -->
-        <child>
-          <object class="GtkButton" id="addTransactionButton">
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="label">+</property>
-          </object>
-        </child> <!-- close child for add button -->
-        <child>
-          <object class="GtkButton" id="removeTransactionButton">
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="label">-</property>
-          </object>
-        </child>
+        </child> <!-- close top right area -->
       </object>
     </child> <!-- close top bar area -->
     <!-- create are for main content -->
