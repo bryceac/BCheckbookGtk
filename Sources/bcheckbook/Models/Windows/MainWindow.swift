@@ -11,6 +11,8 @@ class MainWindow: WindowModel {
 
     let iterator: TreeIter = TreeIter()
 
+    let categoryIterator = TreeIter()
+
     lazy var scrollView = builder?.get("scrollView", ScrolledWindowRef.init)
 
     // retrieve cell renderers, so that data can be manipulated inside tree view.
@@ -43,6 +45,8 @@ class MainWindow: WindowModel {
  
     // create property to house the transactions
     let records = Records()
+
+    var categories = ["Hello", "World", "7"]
 
     override func make(window: Gtk.Window) {
         super.make(window: window)
@@ -143,11 +147,19 @@ class MainWindow: WindowModel {
     func updateViews() {
         store.clear()
         loadStore()
+        categoryStore.clear()
+        loadCategoryStore()
     }
 
     private func loadRecords() {
         guard let FILE_PATH = self.fileURL, let STORED_RECORDS = try? Record.load(from: FILE_PATH) else { return }
         records.items = STORED_RECORDS
+    }
+
+    private func loadCategoryStore() {
+        for category in categories {
+            categoryStore.append(asNextRow: categoryIterator, Value(category))
+        }
     }
 
     private func loadStore() {
