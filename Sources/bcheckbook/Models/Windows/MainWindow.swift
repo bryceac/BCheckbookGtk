@@ -133,6 +133,16 @@ class MainWindow: WindowModel {
         }
 
         categoryCell?.onChanged{ (unownedSelf: CellRendererComboRef, path: String, selectedIterator: TreeIterRef) in
+            let recordPath = TreePath(string: path)
+            let RECORD_ID = self.records.sortedRecords[recordPath.index].id
+
+            guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
+
+            let categoryPath = self.categoryStore.getPath(iter: selectedIterator)!
+
+            let category = self.categories[categoryPath.index]
+
+            record.event.category = category
         }
 
         depositCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
