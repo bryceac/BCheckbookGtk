@@ -110,6 +110,23 @@ class MainWindow: WindowModel {
             self.updateViews()
         }
 
+        categoryCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
+            let path = TreePath(string: path)
+
+            let RECORD_ID = self.records.sortedRecords[path.index].id
+            guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
+
+            record.event.category = newValue
+
+            self.updateViews()
+
+            guard self.categories.allSatisfy({ category in
+                        !category.lowercased().contains(newValue.lowercased()) || !(category.caseInsensitiveCompare(newValue) == .orderedSame) }) else { return }
+
+            self.categories.append(newValue)
+            self.updateCategoryList()
+        }
+
         depositCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)
 
@@ -147,6 +164,9 @@ class MainWindow: WindowModel {
     func updateViews() {
         store.clear()
         loadStore()
+    }
+
+    func updateCategoryList() {
         categoryStore.clear()
         loadCategoryStore()
     }
