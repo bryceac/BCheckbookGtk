@@ -4,27 +4,28 @@ import GLibObject
 import Foundation
 
 class MainWindow: WindowModel {
-    let records = Records()
+    var builder: Builder? = Builder("window")
+
+    lazy var store = ListStore(builder?.get("store", Gtk.ListStoreRef.init).list_store_ptr)!
 
     let iterator: TreeIter = TreeIter()
-    let store = ListStore(.string, .string, .boolean, .string, .string, .string, .string, .string, .string)
 
-    let categoryStore = ListStore(.string)
-    let categoryIterator = TreeIter()
+    lazy var scrollView = builder?.get("scrollView", ScrolledWindowRef.init)
 
-    let dateCell = CellRendererText()
-    let checkNumberCell = CellRendererText()
-    let reconciledCell = CellRendererToggle()
-    let vendorCell = CellRendererText()
-    let memoCell = CellRendererText()
-    let categoryCell = CellRendererCombo()
-    let depositCell = CellRendererText()
-    let withdrawalCell = CellRendererText()
+    // retrieve cell renderers, so that data can be manipulated inside tree view.
+    lazy var dateCell = builder?.get("dateCellRenderer", CellRendererTextRef.init)
 
-    var categories = ["Hello", "World", "7"]
-    
+    lazy var checkNumberCell = builder?.get("checkNumberCellRenderer", CellRendererTextRef.init)
 
-    var scrollView = ScrolledWindow()
+    lazy var isReconciledCell = builder?.get("reconciledCellRenderer", CellRendererToggleRef.init)
+
+    lazy var vendorCell = builder?.get("vendorCellRenderer", CellRendererTextRef.init)
+
+    lazy var memoCell = builder?.get("memoCellRenderer", CellRendererTextRef.init)
+
+    lazy var depositCell = builder?.get("depositCellRenderer", CellRendererTextRef.init)
+
+    lazy var withdrawalCell = builder?.get("withdrawalCellRenderer", CellRendererTextRef.init)
 
     var application: ApplicationRef? = nil
 
@@ -36,38 +37,62 @@ class MainWindow: WindowModel {
             updateViews()
         }
     }
+ 
+    // create property to house the transactions
+    let records = Records.shared
 
     override func make(window: Gtk.Window) {
         super.make(window: window)
 
-        window.title = "BCheckbook"
+        window.title = "Hello, World!"
         window.setDefaultSize(width: 800, height: 600)
 
-        for category in categories {
-            categoryStore.append(asNextRow: categoryIterator, Value(category))
+        var accelGroup: AccelGroup! = {
+            let group = AccelGroupRef().link(to: AccelGroup.self)!
+            return group
+        }()
+
+        window.add(accelGroup: accelGroup)
+
+        var quitItem: MenuItem! = MenuItemRef(label: "Quit").link(to: MenuItem.self)?.apply { item in
+            item.addAccelerator(accelSignal: "activate",
+            accelGroup: accelGroup,
+            accelKey: Int(Gdk.KEY_q),
+            accelMods: ModifierType.controlMask,
+            accelFlags: AccelFlags.visible)
+
+            item.onActivate { [weak self] _ in
+                self?.application?.quit()
+            }
         }
 
-        let columns = [
-        ("Date", "text", dateCell),
-        ("Check #", "text", checkNumberCell),
-        ("Reconciled", "active", reconciledCell),
-        ("Vendor", "text", vendorCell),
-        ("Memo", "text", memoCell),
-        ("Category", "text", categoryCell),
-        ("Deposit", "text", depositCell),
-        ("Withdrawal", "text", withdrawalCell),
-        ("Balance", "text", CellRendererText())
-        ].enumerated().map {(i: Int, c:(title: String, kind: PropertyName, renderer: CellRenderer)) in
-            TreeViewColumn(i, title: c.title, renderer: c.renderer, attribute: c.kind)
+        var fileMenu: Menu! = MenuRef().link(to: Menu.self)?.apply { menu in
+            menu.append(child: quitItem)
         }
 
-        let listView = ListView(model: store)
-        listView.append(columns)
+        var fileItem: MenuItem! = MenuItemRef(label: "File").link(to: MenuItem.self)?.apply { item in
+            item.set(submenu: fileMenu)
+        }
 
-        dateCell.set(property: 
-        .editable, value: true)
+        var menuBar: MenuBar! = MenuBarRef().link(to: MenuBar.self)?.apply { bar in
+            bar.append(child: fileItem)    
+        }
 
-        dateCell.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
+        self.application?.set(menubar: menuBar)
+
+        checkNumberCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
+            let path = TreePath(string: path)
+
+            let RECORD_ID = self.records.sortedRecords[path.index].id
+            guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
+
+            record.event.checkNumber = Int(newValue) 
+
+            self.updateViews()
+        }
+
+        // make sure data is modified appropriately for each cell
+        dateCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)
 
             guard let newDate = Event.DF.date(from: newValue) else { return } 
@@ -80,24 +105,7 @@ class MainWindow: WindowModel {
             self.updateViews()
         }
 
-        checkNumberCell.set(property: .editable, value: true)
-
-        checkNumberCell.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
-            let path = TreePath(string: path)
-
-            let newCheckNumber = Int(newValue)
-
-            let RECORD_ID = self.records.sortedRecords[path.index].id
-            guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
-
-            record.event.checkNumber = newCheckNumber
-
-            self.updateViews()
-        }
-
-        reconciledCell.set(property: .activatable, value: true)
-
-        reconciledCell.onToggled { [weak self] _, string in
+        isReconciledCell?.onToggled { [weak self] _, string in
             let path = TreePath(string: string)
 
             let RECORD_ID = self?.records.sortedRecords[path.index].id
@@ -107,11 +115,8 @@ class MainWindow: WindowModel {
             self?.updateViews()
         }
 
-        vendorCell.set(property: 
-        .editable, value: true)
-
-        vendorCell.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
-            let path = TreePath(string: path) 
+        vendorCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
+            let path = TreePath(string: path)
 
             let RECORD_ID = self.records.sortedRecords[path.index].id
             guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
@@ -121,9 +126,7 @@ class MainWindow: WindowModel {
             self.updateViews()
         }
 
-        memoCell.set(property: .editable, value: true)
-
-        memoCell.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
+        memoCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)
 
             let RECORD_ID = self.records.sortedRecords[path.index].id
@@ -134,71 +137,38 @@ class MainWindow: WindowModel {
             self.updateViews()
         }
 
-        categoryCell.set(property: 
-        .editable, value: true)
-        categoryCell.set(property: .model, value: Value(categoryStore))
-        categoryCell.set(property: .textColumn, value: 0)
-        categoryCell.set(property: .hasEntry, value: true)
-
-        categoryCell.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
-            let path = TreePath(string: path) 
-
-            let RECORD_ID = self.records.sortedRecords[path.index].id
-            guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
-
-            record.event.category = !newValue.isEmpty ?  newValue : nil
-
-            self.updateViews()
-        }
-
-        depositCell.set(property: .editable, value: true)
-
-        depositCell.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
+        depositCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)
 
+            guard let amount = Double(newValue) else { return }
+
             let RECORD_ID = self.records.sortedRecords[path.index].id
             guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
 
-            if let newAmount = Double(newValue) {
-                record.event.amount = newAmount
-            } else if let amountNumber = Event.CURRENCY_FORMAT.number(from: newValue) {
-                record.event.amount = amountNumber.doubleValue
-            }
-
+            record.event.amount = amount
             record.event.type = .deposit
-            
+
             self.updateViews()
         }
 
-        withdrawalCell.set(property: .editable, value: true)
-
-        withdrawalCell.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
+        withdrawalCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)
+
+            guard let amount = Double(newValue) else { return }
 
             let RECORD_ID = self.records.sortedRecords[path.index].id
             guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
 
-            if let newAmount = Double(newValue) {
-                record.event.amount = newAmount
-            } else if let amountNumber = Event.CURRENCY_FORMAT.number(from: newValue) {
-                record.event.amount = amountNumber.doubleValue
-            }
-
+            record.event.amount = amount
             record.event.type = .withdrawal
             
             self.updateViews()
         }
-
-        scrollView.addWithViewport(child: listView)
-
-        
-        window.add(widget: scrollView)
+        window.add(widget: scrollView!)
     }
 
     override func windowWillOpen() {
         super.windowWillOpen()
-        loadRecords()
-        loadStore()
     }
 
     func updateViews() {
@@ -222,10 +192,9 @@ class MainWindow: WindowModel {
                         Value(record.event.isReconciled),
                         Value(record.event.vendor),
                         Value(record.event.memo),
-                        Value(record.event.category ?? "Uncategorized"),
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
                         "N/A",
-                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: 0.0))!))
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
                     } else {
                         store.append(asNextRow: iterator,
                         Value(Event.DF.string(from: record.event.date)),
@@ -233,10 +202,9 @@ class MainWindow: WindowModel {
                         Value(record.event.isReconciled),
                         Value(record.event.vendor),
                         Value(record.event.memo),
-                        Value(record.event.category ?? "Uncategorized"),
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
                         "N/A",
-                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: 0.0))!))
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
                     }
                 case .withdrawal:
                     if let checkNumber = record.event.checkNumber {
@@ -246,10 +214,9 @@ class MainWindow: WindowModel {
                         Value(record.event.isReconciled),
                         Value(record.event.vendor),
                         Value(record.event.memo),
-                        Value(record.event.category ?? "Uncategorized"),
                         "N/A",
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
-                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: 0.0))!))
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
                     } else {
                         store.append(asNextRow: iterator,
                         Value(Event.DF.string(from: record.event.date)),
@@ -257,10 +224,9 @@ class MainWindow: WindowModel {
                         Value(record.event.isReconciled),
                         Value(record.event.vendor),
                         Value(record.event.memo),
-                        Value(record.event.category ?? "Uncategorized"),
                         "N/A",
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
-                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: 0.0))!))
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.balance))!))
                     }
             }
         }
