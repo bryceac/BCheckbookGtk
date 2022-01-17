@@ -13,7 +13,8 @@ class MainWindow: WindowModel {
 
     let categoryIterator = TreeIter()
 
-    lazy var scrollView = builder?.get("scrollView", ScrolledWindowRef.init)
+    lazy var mainArea = builder?.get("mainBox", BoxRef.init)
+    // lazy var scrollView = builder?.get("scrollView", ScrolledWindowRef.init)
 
     // retrieve cell renderers, so that data can be manipulated inside tree view.
     lazy var dateCell = builder?.get("dateCellRenderer", CellRendererTextRef.init)
@@ -172,7 +173,7 @@ class MainWindow: WindowModel {
             
             self.updateViews()
         }
-        window.add(widget: scrollView!)
+        window.add(widget: mainArea!)
     }
 
     override func windowWillOpen() {
