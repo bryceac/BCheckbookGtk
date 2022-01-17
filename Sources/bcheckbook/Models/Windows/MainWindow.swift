@@ -116,7 +116,7 @@ class MainWindow: WindowModel {
             let RECORD_ID = self.records.sortedRecords[path.index].id
             guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
 
-            if newValue.isEmpty || newValue != "Uncategorized" {
+            if newValue.isEmpty || newValue == "Uncategorized" {
                 record.event.category = nil
             } else {
                 record.event.category = newValue
@@ -124,7 +124,7 @@ class MainWindow: WindowModel {
 
             self.updateViews()
 
-            guard !newValue.isEmpty || newValue != "Uncategorized" else { return }
+            guard !newValue.isEmpty && newValue != "Uncategorized" else { return }
             guard self.categories.allSatisfy({ category in
                         !category.lowercased().contains(newValue.lowercased()) || !(category.caseInsensitiveCompare(newValue) == .orderedSame) }) else { return }
 
@@ -177,6 +177,7 @@ class MainWindow: WindowModel {
 
     override func windowWillOpen() {
         super.windowWillOpen()
+        loadCategoryStore()
     }
 
     func updateViews() {
@@ -211,7 +212,7 @@ class MainWindow: WindowModel {
                         Value(record.event.isReconciled),
                         Value(record.event.vendor),
                         Value(record.event.memo),
-                        Value(record.event.category ?? "Uuncategorized"),
+                        Value(record.event.category ?? "Uncategorized"),
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
                         "N/A",
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: 0.0))!))
@@ -246,7 +247,7 @@ class MainWindow: WindowModel {
                         Value(record.event.isReconciled),
                         Value(record.event.vendor),
                         Value(record.event.memo),
-                        Value(record.event.category ?? "'Uncategorized"),
+                        Value(record.event.category ?? "Uncategorized"),
                         "N/A",
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: 0.0))!))
