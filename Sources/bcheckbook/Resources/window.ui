@@ -60,6 +60,21 @@
             <property name="label">Export Transactions</property>
           </object>
         </child> <!-- close export transactions area -->
+        <!-- add button to add transaction to view -->
+        <child>
+          <object class="GtkButton" id="addTransactionButton">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="label">+</property>
+          </object>
+        </child> <!-- close child for add button -->
+        <child>
+          <object class="GtkButton" id="removeTransactionButton">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="label">-</property>
+          </object>
+        </child>
       </object>
     </child> <!-- close top bar area -->
     <!-- create are for main content -->
