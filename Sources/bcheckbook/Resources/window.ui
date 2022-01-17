@@ -31,149 +31,185 @@
       <column type="gchararray"/>
     </columns>
   </object> <!-- close category list store -->
-  <!-- create scroll area -->
-  <object class="GtkScrolledWindow" id="scrollView">
+  <!-- create wrapping box -->
+  <object class="GtkBox" id="mainBox">
     <property name="visible">True</property>
-    <property name="can-focus">False</property>
     <property name="hexpand">True</property>
     <property name="vexpand">True</property>
-    <!-- add tree view to scroll area -->
+    <property name="orientation">vertical</property>
+    <!-- attempt to create a bar area -->
     <child>
-      <!-- create tree view -->
-      <object class="GtkTreeView" id="treeView">
+      <object class="GtkBox" id="top">
+        <property name="visible">True</property>
+        <property name="hexpand">True</property>
+        <property name="vexpand">False</property>
+        <property name="orientation">horizontal</property>
+        <!-- add import button -->
+        <child>
+          <object class="GtkButton" id="importButton">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="label">Import Transactions</property>
+          </object>
+        </child> <!-- close import button area -->
+        <!-- add button to add transactions -->
+        <child>
+          <!-- create box for stuff held in top right-->
+          <object class="GtkButton" id="exportButton">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="label">Export Transactions</property>
+          </object>
+        </child> <!-- close add transaction area -->
+      </object>
+    </child> <!-- close top bar area -->
+    <!-- create are for main content -->
+    <child>
+      <!-- create scroll area -->
+      <object class="GtkScrolledWindow" id="scrollView">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <property name="model">store</property>
-        <!-- add child to deal with selection -->
-        <child internal-child="selection">
-          <object class="GtkTreeSelection"/>
-        </child> <!-- close selection child -->
-        <!-- add column for date -->
+        <property name="hexpand">True</property>
+        <property name="vexpand">True</property>
+        <!-- add tree view to scroll area -->
         <child>
-          <object class="GtkTreeViewColumn" id="dateColumn">
-            <property name="title">Date</property>
+          <!-- create tree view -->
+          <object class="GtkTreeView" id="treeView">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="model">store</property>
+            <!-- add child to deal with selection -->
+            <child internal-child="selection">
+              <object class="GtkTreeSelection"/>
+            </child> <!-- close selection child -->
+            <!-- add column for date -->
             <child>
-              <object class="GtkCellRendererText" id="dateCellRenderer">
-                <property name="editable">True</property>
+              <object class="GtkTreeViewColumn" id="dateColumn">
+                <property name="title">Date</property>
+                <child>
+                  <object class="GtkCellRendererText" id="dateCellRenderer">
+                    <property name="editable">True</property>
+                  </object>
+                  <attributes>
+                    <attribute name="text">0</attribute>
+                  </attributes>
+                </child>
               </object>
-              <attributes>
-                <attribute name="text">0</attribute>
-              </attributes>
-            </child>
-          </object>
-        </child> <!-- close date column -->
-        <!-- add column for check number -->
-        <child>
-          <object class="GtkTreeViewColumn" id="checkNumberColumn">
-            <property name="title">Check #</property>
+            </child> <!-- close date column -->
+            <!-- add column for check number -->
             <child>
-              <object class="GtkCellRendererText" id="checkNumberCellRenderer">
-                <property name="editable">True</property>
+              <object class="GtkTreeViewColumn" id="checkNumberColumn">
+                <property name="title">Check #</property>
+                <child>
+                  <object class="GtkCellRendererText" id="checkNumberCellRenderer">
+                    <property name="editable">True</property>
+                  </object>
+                  <attributes>
+                    <attribute name="text">1</attribute>
+                  </attributes>
+                </child>
               </object>
-              <attributes>
-                <attribute name="text">1</attribute>
-              </attributes>
-            </child>
-          </object>
-        </child> <!-- close check number column -->
-        <!-- add column for reconciliation-->
-        <child>
-          <object class="GtkTreeViewColumn" id="reconciledColumn">
-            <property name="title">Reconciled</property>
+            </child> <!-- close check number column -->
+            <!-- add column for reconciliation-->
             <child>
-              <object class="GtkCellRendererToggle" id="reconciledCellRenderer"/>
-              <attributes>
-                <attribute name="active">2</attribute>
-              </attributes>
-            </child>
-          </object>
-        </child> <!-- close reconciliation column -->
-        <!-- create column for vendor -->
-        <child>
-          <object class="GtkTreeViewColumn" id="vendorColumn">
-            <property name="title">Vendor</property>
-            <child>
-              <object class="GtkCellRendererText" id="vendorCellRenderer">
-                <property name="editable">True</property>
+              <object class="GtkTreeViewColumn" id="reconciledColumn">
+                <property name="title">Reconciled</property>
+                <child>
+                  <object class="GtkCellRendererToggle" id="reconciledCellRenderer"/>
+                  <attributes>
+                    <attribute name="active">2</attribute>
+                  </attributes>
+                </child>
               </object>
-              <attributes>
-                <attribute name="text">3</attribute>
-              </attributes>
-            </child>
-          </object>
-        </child> <!-- close vendor column -->
-        <!-- create column for memo -->
-        <child>
-          <object class="GtkTreeViewColumn" id="memoColumn">
-            <property name="title">Memo</property>
+            </child> <!-- close reconciliation column -->
+            <!-- create column for vendor -->
             <child>
-              <object class="GtkCellRendererText" id="memoCellRenderer">
-                <property name="editable">True</property>
+              <object class="GtkTreeViewColumn" id="vendorColumn">
+                <property name="title">Vendor</property>
+                <child>
+                  <object class="GtkCellRendererText" id="vendorCellRenderer">
+                    <property name="editable">True</property>
+                  </object>
+                  <attributes>
+                    <attribute name="text">3</attribute>
+                  </attributes>
+                </child>
               </object>
-              <attributes>
-                <attribute name="text">4</attribute>
-              </attributes>
-            </child>
-          </object>
-        </child> <!-- close memo column -->
-        <!-- create category column -->
-        <child>
-          <object class="GtkTreeViewColumn" id="categoryColumn">
-            <property name="title">Category</property>
+            </child> <!-- close vendor column -->
+            <!-- create column for memo -->
             <child>
-              <object class="GtkCellRendererCombo" id="categoryCellRenderer">
-                <property name="editable">True</property>
-                <property name="has-entry">True</property>
-                <property name="model">categoryStore</property>
-                <property name="text-column">0</property>
+              <object class="GtkTreeViewColumn" id="memoColumn">
+                <property name="title">Memo</property>
+                <child>
+                  <object class="GtkCellRendererText" id="memoCellRenderer">
+                    <property name="editable">True</property>
+                  </object>
+                  <attributes>
+                    <attribute name="text">4</attribute>
+                  </attributes>
+                </child>
               </object>
-              <attributes>
-                <attribute name="text">5</attribute>
-              </attributes>
-            </child>
-          </object>
-        </child> <!-- close category column -->
-        <!-- create deposit column -->
-        <child>
-          <object class="GtkTreeViewColumn" id="depositColumn">
-            <property name="title">Deposit</property>
+            </child> <!-- close memo column -->
+            <!-- create category column -->
             <child>
-              <object class="GtkCellRendererText" id="depositCellRenderer">
-                <property name="editable">True</property>
+              <object class="GtkTreeViewColumn" id="categoryColumn">
+                <property name="title">Category</property>
+                <child>
+                  <object class="GtkCellRendererCombo" id="categoryCellRenderer">
+                    <property name="editable">True</property>
+                    <property name="has-entry">True</property>
+                    <property name="model">categoryStore</property>
+                    <property name="text-column">0</property>
+                  </object>
+                  <attributes>
+                    <attribute name="text">5</attribute>
+                  </attributes>
+                </child>
               </object>
-              <attributes>
-                <attribute name="text">6</attribute>
-              </attributes>
-            </child>
-          </object>
-        </child> <!-- close deposit column -->
-        <!-- create column for withdrawals -->
-        <child>
-          <object class="GtkTreeViewColumn" id="withdrawalColumn">
-            <property name="title">Withdrawal</property>
+            </child> <!-- close category column -->
+            <!-- create deposit column -->
             <child>
-              <object class="GtkCellRendererText" id="withdrawalCellRenderer">
-                <property name="editable">True</property>
+              <object class="GtkTreeViewColumn" id="depositColumn">
+                <property name="title">Deposit</property>
+                <child>
+                  <object class="GtkCellRendererText" id="depositCellRenderer">
+                    <property name="editable">True</property>
+                  </object>
+                  <attributes>
+                    <attribute name="text">6</attribute>
+                  </attributes>
+                </child>
               </object>
-              <attributes>
-                <attribute name="text">7</attribute>
-              </attributes>
-            </child>
-          </object>
-        </child> <!-- close withdrawal column -->
-        <!-- create column to hold balance -->
-        <child>
-          <object class="GtkTreeViewColumn" id="balanceColumn">
-            <property name="title">Balance</property>
+            </child> <!-- close deposit column -->
+            <!-- create column for withdrawals -->
             <child>
-              <object class="GtkCellRendererText"/>
-              <attributes>
-                <attribute name="text">8</attribute>
-              </attributes>
-            </child>
-          </object>
-        </child> <!-- close balance column -->
-      </object> <!-- close tree view -->
-    </child> <!-- close child containing tree view -->
-  </object> <!-- close scroll area -->
+              <object class="GtkTreeViewColumn" id="withdrawalColumn">
+                <property name="title">Withdrawal</property>
+                <child>
+                  <object class="GtkCellRendererText" id="withdrawalCellRenderer">
+                    <property name="editable">True</property>
+                  </object>
+                  <attributes>
+                    <attribute name="text">7</attribute>
+                  </attributes>
+                </child>
+              </object>
+            </child> <!-- close withdrawal column -->
+            <!-- create column to hold balance -->
+            <child>
+              <object class="GtkTreeViewColumn" id="balanceColumn">
+                <property name="title">Balance</property>
+                <child>
+                  <object class="GtkCellRendererText"/>
+                  <attributes>
+                    <attribute name="text">8</attribute>
+                  </attributes>
+                </child>
+              </object>
+            </child> <!-- close balance column -->
+          </object> <!-- close tree view -->
+        </child> <!-- close child containing tree view -->
+      </object> <!-- close scroll area -->
+    </child> <!-- close main content area -->
+  </object> <!-- close wrapping box -->
 </interface>
