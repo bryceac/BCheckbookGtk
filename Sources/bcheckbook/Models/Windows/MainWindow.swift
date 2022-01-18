@@ -58,6 +58,7 @@ class MainWindow: WindowModel {
             // create filter to ensure files are the ones opened
             let filter = FileFilter()
             filter.add(pattern: "*.bcheck")
+            filter.set(name: "BCheckbook Files")
 
             // create File Chooser, to allow user to specify specific file
             let chooser = FileChooserNative()
@@ -89,12 +90,13 @@ class MainWindow: WindowModel {
             // create filter to ensure files are saved as bcheck files
             let filter = FileFilter()
             filter.add(pattern: "*.bcheck")
+            filter.set(name: "BCheckbook Files")
 
             // create File Chooser, to allow user to specify where to save.
             let chooser = FileChooserNative()
 
             // make sure default name is set correctly.
-            chooser.setCurrent(name: "transactions.bcheck")
+            chooser.setCurrent(name: "transactions")
             chooser.add(filter: filter)
 
             // tell chooser it is meant to save
