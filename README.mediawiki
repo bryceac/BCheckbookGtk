@@ -14,9 +14,15 @@
 
 This is a port of the <a href="https://github.com/bryceac/BCheckbook">original application</a> that was made for macOS and iOS for use on Linux systems and has been tested in Devuan Beowulf (aka. Debian 10) with GTK 3 and Swift 5.4.
 
-While this <strong>may</strong> work on a Mac, I strongly recommend buying either the iOS version or the macOS version from the respective app stores, as they actually function, with some issues that I cannot figure out at this time, especially because I was able to verify my code for calculations and such were working otherwise.
+While this does work on a Mac, I strongly recommend buying either 
+the iOS version or the macOS version from the respective app stores, 
+as the native Mac app currently support 
+macOS Big Sur and later, while the code found here only works on 
+macOS 12 and later.
 
-Not only would the experience be a little better on macOS and iOS, but it can help me out financially and you <strong>should</strong> be able to get both the iOS and Mac app after only buying one version.
+Not only would the experience be a little better on macOS and iOS, 
+but it can help me out financially and you <strong>should</strong> 
+be able to get both the iOS and Mac app after only buying one version.
 
 ===Questions===
 
@@ -35,9 +41,18 @@ Not only would the experience be a little better on macOS and iOS, but it can he
 <dl>
 <dt style="font-weight:bold">Are you going to release this on Windows?</dt>
 <dd>
-<p>While I am not particularly fond of Windows, especially because temporary environment variables are a big pain in Windows, I would like release this on Windows, so that users have a more friendly application to use than a CLI-based application.</p>
-<p>Right now, I am only focusing on getting things to work, though I have found information stating it is possible to compile Swift programs on Linux for Windows, which would be a big boon, in comparison of going through the hassles of getting the native Swift toolchain for Windows working.</p>
-<p>If you want to help speed things along, however, feel free to try and compile a Windows binary.</p>
+<p>While I am not particularly fond of Windows, 
+especially because temporary environment variables 
+are a big pain in Windows, 
+I would like release this on Windows, 
+so that users have a more friendly application to use 
+than a CLI-based application.</p>
+<p>I have found out that Swift Support has improved for Windows 10,
+such as a working version of Swift Package Manager, 
+but I am not sure of the dependency used to communicate with the database.</p>
+<p>If you have the time to do any work necessary to get 
+this running on Windows, I will accept any help I can get, 
+and would reduce the workload.</p>
 </dd>
 </dl>
 </li>
@@ -45,12 +60,13 @@ Not only would the experience be a little better on macOS and iOS, but it can he
 <dl>
 <dt style="font-weight:bold">Do you plan to sell this program, like you are selling a version for macOS and iOS?</dt>
 <dd>
-<p>While I would love to make money from this application, as it does help allow users to read and load their saves from iOS or macOS, I am of the mind that people should only ever have to pay for an application once.</p>
-<p>For example, if they buy an application on Android, they should get the iOS, macOS, and Windows version for free and the same on any other platform.</p>
-<p>Yes, this is not feasible, unless you do something like Plex and their Plex pass subscription, not to mention equipment is not free, even if an operating system can be freely obtained, but I think that is ultimately what people want.</p>
-<p>Sadly, this buy only once is only possible under a few conditions, such as only desktop applications.</p>
-<p>The other thing making me a little leery about making money from this application, aside from not being able to give users who bought the iOS or macOS version for free, is that I have not really looked into ways to make money off applications like this, though I might do that when the program is in a desirable state.</p>
-<p>In other words, I do not plan to make money off this port at this time.</p>
+<p>With the current state the application is in, 
+I may start looking into this, 
+especially if this can compile on Windows, 
+seeing as there may be some of my iOS users that 
+use Windows on their computers.</p>
+<p>However, I would much prefer a system of buy once install anywhere, 
+which seems to be impossible these days outside Apple platforms.</p>
 </dd>
 </dl>
 </li>
@@ -58,38 +74,61 @@ Not only would the experience be a little better on macOS and iOS, but it can he
 
 ===Plans===
 
-As this is currently a <abbr title="Work in Progress">WIP</abbr>, the current plan mainly involves getting basic functionality in place, like allowing users to select a save file, rather than hard coding one in, and, like the macOS application, allow editing the contents in the ListView.
+I plan to keep this version the way it is right now,
+as I just wanted a simple application 
+that could be used to handle data from the original macOS and iOS apps.
 
-After that I plan to try and keep this program in sync with the Mac and iOS version as much as possible, due to how differently Swift acts in a Linux environment in some places.
-
-===Status Log===
+===Known Issues===
 
 <dl>
-  <dt style="font-weight:bold">8/23/2021</dt>
+  <dt style="font-weight:bold">Tabbing does not submit entry</dt>
   <dd>
-  <p>Got all fields able to manipulate data properly, to an acceptable extent, with only annoyance being the date field.</p>
-  <p>Changes to data also reflect properly, unlike the macOS and iOS apps, where things would only look right after reloading a file or relaunching the application.</p>
+  <p>While testing the program, 
+  I found data to not be filled when tabbing over, as the UI of 
+  this application is more inline with my original design plan 
+  for the macOS version.</p>
+  <p>Being that I am new GTK 
+  and not being able to find too many examples, 
+  as well as not that much help, 
+  I had to wing a few things based upon things 
+  that could be inferred from the library's documentation.</p>
+  <p>As a result, this issue may exist for a long time.</p>
+  <p>If you notice this issue, 
+  I suggest pressing enter on the field rather than tabbing.</p>
   </dd>
 </dl>
 
 ===Contributing===
 
-If you would like to help out with this project, to help it get into a decent enough state for usage, feel free to fork this repository and make a pull request.
+If you would like to help out with this project, 
+to help make it more usable and user friendly, 
+feel free to fork this repository and make a pull request.
 
-Currently the application needs the following features to be usable by end users:
+Things that I could really use help with are any known issues, 
+as well as adding in the following things:
 
 <dl>
-  <dt style="font-weight:bold">Save &#38; Load System</dt>
-  <dd>
-    <p>This area has no real good documentation for the library I am using and the particular setup I have in place, where models have type methods and methods added via extension to do these operations and menu items are in a different UI file.</p>
-    <p>I need the Open, Save, and Save As items to connect either a custom function or a predefined one that can grab or set the fileURL variable and do the appropriate work (e.g. have Save call a FileChooserDialog/FileChooserNative if fileURL is nil but run the save function provided by a function defined in an array extension).</p>
-  </dd>
-  <dt style="font-weight:bold">Add/Remove transactions</dt>
-  <dd>
-    <p>Now that I am able to reload the tree view properly, it is safe to try implementing a way to add in this necessary piece of functionality. This one might require some tweaking to the user interface.</p>
-    <p>Ideally, a user should just be able to click a button and/or press a key combination to add a new entry to the list store.</p>
-    <p>Likewise, a user should just be able to click a button, press a key combination, or right-click an entry and delete the desired entry.</p>
-  </dd>
+<dt style="font-weight:bold">Date Picker/Calendar drop down</dt>
+<dd>
+<p>Currently, the program can only modify the date via a string.</p>
+<p>Obviously, 
+allowing it to be changed in this manner has some problems, 
+but Swift guard statements allow me to somewhat tackle this issue easily.</p>
+<p>However, I would much prefer using a method that would guarantee results, 
+like a dedicated drop down.</p>
+</dd>
+<dt style="font-weight:bold">Category autocompletion</dt>
+<dd>
+<p>While testing the program, 
+I found out that it was possible to specify categories 
+that should not exist and took measures to try to prevent that,
+but I would like the user to be able to type in some text and 
+have the renderer attempt to guess the category if the text is contained a category.</p>
+</dd>
 </dl>
 
-The above are things that I may work on myself, but since this is my first foray in GTK and GUI programming for Linux, help would be much appreciated and would finally put this application in a state where I can look into how this program should be installed and work on building packages.
+The above are things that I may work on myself, 
+but since this is my first foray in GTK 
+and GUI programming for Linux, help would be much appreciated 
+and would finally make this application into something 
+that is not just better looking than the native macOS app with some kinks.
