@@ -22,7 +22,7 @@ ifneq (, $(findstring darwin, $(SYS)))
 else
 	install -D ".build/release/bcheckbook" "$(bindir)/bcheckbook"
 
-	install -D "BCheckbook.desktop" "/usr/shared/applications"
+	install -D "BCheckbook.desktop" "/usr/share/applications"
 
 	install -D "bcheckbook_icon.png" "/usr/share/icons"
 
@@ -32,6 +32,9 @@ uninstall:
 	rm -rf "$(bindir)/bcheckbook"
 
 	rm -rf "$(bindir)/bcheckbook_bcheckbook.resources"
+
+	rm -f "/usr/share/applications/BCheckbook.desktop"
+	rm -f "/usr/share/icons/bcheckbook_icon.png"
 clean:
 	rm -rf .build
 .PHONY: build install uninstall clean
