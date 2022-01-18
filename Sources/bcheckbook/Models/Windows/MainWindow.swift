@@ -318,6 +318,11 @@ class MainWindow: WindowModel {
         try? databaseManager.add(records: records)
     }
 
+    private func balance(for record: Record) -> Double {
+        guard let databaseManager = DB.shared.manager, let recordBalance = try? databaseManager.balance(for: record) else { return }
+        return recordBalance
+    }
+
     private func loadStore() {
         for record in records.sortedRecords {
             switch record.event.type {
