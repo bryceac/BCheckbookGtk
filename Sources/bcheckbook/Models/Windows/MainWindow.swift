@@ -207,8 +207,10 @@ class MainWindow: WindowModel {
             self.updateViews()
 
             guard !newValue.isEmpty && newValue != "Uncategorized" else { return }
-            guard !self.categories.allSatisfy({ category in
-                        !category.lowercased().contains(newValue.lowercased()) || !(category.caseInsensitiveCompare(newValue) == .orderedSame) }) else { return }
+            guard !self.categories.containts(where: { category in
+                category.lowercased().contains(newValue.lowercased()) ||
+                category.caseInsensitiveCompare(newValue) == .orderedSame
+            }) else { return }
 
             self.categories.append(newValue)
             self.updateCategoryList()
