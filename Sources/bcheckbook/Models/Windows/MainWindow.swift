@@ -305,6 +305,14 @@ class MainWindow: WindowModel {
         updateViews()
     }
 
+    private func update(record: Record) {
+        guard let databaseManager = DB.shared.manager else { return }
+
+        try? databaseManager.update(record: record)
+        loadRecords()
+        updateViews()
+    }
+
     private func add(records: [Record]) {
         guard let databaseManager = DB.shared.manager else { return }
         try? databaseManager.add(records: records)
