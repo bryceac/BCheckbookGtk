@@ -66,11 +66,11 @@ class MainWindow: WindowModel {
             let chooser = FileChooserNative()
             chooser.set(acceptLabel: "Open")
             chooser.set(cancelLabel: "Cancel")
-            if case .accept = chooser.run() {
-                let fileURL = URL(string: chooser.getURI())!
+            if case ResponseType.accept = ResponseType(chooser.run()) {
+                self.fileURL = URL(string: chooser.getURI())!
 
-                if let retrievedRecords = Record.load(from: fileURL) {
-                    records.items = retrievedRecords
+                if let retrievedRecords = try? Record.load(from: self.fileURL!) {
+                    self.records.items = retrievedRecords
                     self.updateViews()
                 }
             }
