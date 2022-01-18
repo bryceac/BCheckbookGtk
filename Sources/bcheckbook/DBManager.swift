@@ -88,7 +88,7 @@ class DBManager {
             } else {
                 try add(category: category)
                 
-                guard let categoryID = try? id(ofCategory: category) else { return }
+                let categoryID = try? id(ofCategory: category)
             
                 insert = TRABSACTION_TABLE.insert(ID_FIELD <- record.id, DATE_FIELD <- Event.DF.string(from: record.event.date), CHECK_NUMBER_FIELD <- record.event.checkNumber, VENDOR_FIELD <- record.event.vendor, MEMO_FIELD <- record.event.memo, TRANSACTION_CATEGORY_ID_FIELD <- categoryID, AMOUNT_FIELD <- EventType.withdrawal ~= record.event.type ? record.event.amount * -1.0 : record.event.amount, TRANSACTION_RECONCILED_FIELD <- record.event.isReconciled ? 1 : 0)
             }
@@ -104,7 +104,11 @@ class DBManager {
      - parameter category: The category to be added to the database.
      */
     func add(category: String) throws  {
-        guard case .none = try id(ofCategory: category) else { return }
+        guard let categories = categories, !categories.contains(where: { category in
+                category.lowercased().contains(newValue.lowercased()) ||
+                category.caseInsensitiveCompare(newValue) == .orderedSame
+            }) else { return }
+
         try db.run(CATEGORY_TABLE.insert(CATEGORY_FIELD <- category))
     }
     
@@ -288,7 +292,7 @@ class DBManager {
             } else {
                 try add(category: category)
                 
-                guard let categoryID = try id(ofCategory: category) else { return }
+                let categoryID = try id(ofCategory: category)
                 
                 update = TRSNSACTION_RECORD.update(DATE_FIELD <- Event.DF.string(from: record.event.date), CHECK_NUMBER_FIELD <- record.event.checkNumber, TRANSACTION_CATEGORY_ID_FIELD <- categoryID, VENDOR_FIELD <- record.event.vendor, MEMO_FIELD <- record.event.memo, AMOUNT_FIELD <- EventType.withdrawal ~= record.event.type ? record.event.amount * -1.0 : record.event.amount, TRANSACTION_RECONCILED_FIELD <- record.event.isReconciled ? 1 : 0 )
             }

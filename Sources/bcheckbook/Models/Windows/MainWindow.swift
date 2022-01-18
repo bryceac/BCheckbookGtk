@@ -72,8 +72,7 @@ class MainWindow: WindowModel {
 
                 // attempt to parse file and import data into view.
                 if let retrievedRecords = try? Record.load(from: fileURL) {
-                    self.records.items = retrievedRecords
-                    self.updateViews()
+                    self.add(records: retrievedRecords)
                 }
             }
         }
@@ -108,8 +107,7 @@ class MainWindow: WindowModel {
         addButton?.onClicked { _ in
             let record = Record()
 
-            self.records.add(record)
-            self.updateViews()
+            self.add(record: record)
         }
 
         removeButton?.onClicked { _ in
@@ -119,8 +117,7 @@ class MainWindow: WindowModel {
             if let path = self.store.getPath(iter: self.iterator) {
                 let record = self.records.sortedRecords[path.index]
 
-                self.records.remove(record)
-                self.updateViews()
+                self.remove(record: record)
             }
         }
 
@@ -130,9 +127,7 @@ class MainWindow: WindowModel {
             let RECORD_ID = self.records.sortedRecords[path.index].id
             guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
 
-            record.event.checkNumber = Int(newValue) 
-
-            self.updateViews()
+            self.update(record: record)
         }
 
         // make sure data is modified appropriately for each cell
@@ -146,7 +141,7 @@ class MainWindow: WindowModel {
 
             record.event.date = newDate
 
-            self.updateViews()
+            self.update(record: record)
         }
 
         isReconciledCell?.onToggled { [weak self] _, string in
@@ -156,7 +151,7 @@ class MainWindow: WindowModel {
             guard let record = self?.records.items.first(where: { $0.id == RECORD_ID }) else { return }
             record.event.isReconciled.toggle()
 
-            self?.updateViews()
+            self?.update(record: record)
         }
 
         vendorCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
@@ -167,7 +162,7 @@ class MainWindow: WindowModel {
 
             record.event.vendor = newValue
 
-            self.updateViews()
+            self.update(record: record)
         }
 
         memoCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
@@ -178,7 +173,7 @@ class MainWindow: WindowModel {
 
             record.event.memo = newValue
 
-            self.updateViews()
+            self.update(record: record)
         }
 
         categoryCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
@@ -193,7 +188,7 @@ class MainWindow: WindowModel {
                 record.event.category = newValue
             }
 
-            self.updateViews()
+            self.update(record: record)
 
             guard !newValue.isEmpty && newValue != "Uncategorized" else { return }
             guard let databaseManager = DB.shared.manager, let categories = databaseManager.categories else { return }
@@ -316,6 +311,8 @@ class MainWindow: WindowModel {
     private func add(records: [Record]) {
         guard let databaseManager = DB.shared.manager else { return }
         try? databaseManager.add(records: records)
+        loadRecords()
+        updateViews()
     }
 
     private func balance(for record: Record) -> Double {
