@@ -99,6 +99,9 @@ class MainWindow: WindowModel {
             chooser.set(acceptLabel: "Export")
             chooser.set(cancelLabel: "Cancel")
 
+            // make sure user does not accidentallt overwrite file
+            chooser.set(doOverwriteConfirmation: true)
+
             /*
             run dialog and convert response to ResponseType, 
             in order to make sure data is only imported when desired. */
