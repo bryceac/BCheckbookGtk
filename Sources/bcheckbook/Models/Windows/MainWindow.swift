@@ -125,25 +125,14 @@ class MainWindow: WindowModel {
 
         removeButton?.onClicked { _ in
             let selection = self.ledgerListView.getSelection()
-            var rowReferences: [TreeRowReference] = []
+            let selectedRow = selection?.getSelected(iter: self.iterator)
 
-            if let rows = selection?.getSelectedRows() {
-                for row in rows {
-                    let rowReference = TreeRowReference(raw: row)
-                    rowReferences.append(rowReference)
-                }
-            }
-
-            for row in rowReferences {
-                guard let path = row.getPath() else { continue }
-
+            if let path = self.store.getPath(iter: self.iterator) {
                 let record = self.records.sortedRecords[path.index]
 
                 self.records.remove(record)
+                self.updateViews()
             }
-
-            self.updateViews()
-            
         }
 
         checkNumberCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
