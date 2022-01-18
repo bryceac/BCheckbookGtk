@@ -95,12 +95,12 @@ class MainWindow: WindowModel {
             // create File Chooser, to allow user to specify where to save.
             let chooser = FileChooserNative()
 
+            // tell chooser it is meant to save
+            chooser.set(action: FileChooserAction.save)
+
             // make sure default name is set correctly.
             chooser.setCurrent(name: "transactions")
             chooser.add(filter: filter)
-
-            // tell chooser it is meant to save
-            chooser.set(action: FileChooserAction.save)
 
             // set labels on file chooser
             chooser.set(acceptLabel: "Export")
