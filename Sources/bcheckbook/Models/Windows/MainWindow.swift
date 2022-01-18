@@ -213,7 +213,11 @@ class MainWindow: WindowModel {
 
             let categoryPath = self.categoryStore.getPath(iter: selectedIterator)!
 
-            let category = self.categories[categoryPath.index]
+            guard let databaseManager = DB.shared.manager, let categories = databaseManager.categories else { return }
+
+            let sortedCategories = categories.sorted(by: <)
+
+            let category = sortedCategories[categoryPath.index]
 
             record.event.category = category
         }
