@@ -67,7 +67,7 @@ class MainWindow: WindowModel {
             chooser.add(filter: filter)
 
             // set labels on file chooser
-            chooser.set(acceptLabel: "Open")
+            chooser.set(acceptLabel: "Import")
             chooser.set(cancelLabel: "Cancel")
 
             /*
