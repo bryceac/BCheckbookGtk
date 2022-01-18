@@ -43,15 +43,6 @@ class MainWindow: WindowModel {
     lazy var withdrawalCell = builder?.get("withdrawalCellRenderer", CellRendererTextRef.init)
 
     var application: ApplicationRef? = nil
-
-    // URL for file to be read
-    // var fileURL: URL? = nil
-    var fileURL: URL? = nil {
-        didSet {
-            loadRecords()
-            updateViews()
-        }
-    }
  
     // create property to house the transactions
     let records = Records()
@@ -79,10 +70,10 @@ class MainWindow: WindowModel {
             if case ResponseType.accept = ResponseType(chooser.run()) {
 
                 // retrieve URL string from chooser and convert it to a URL
-                self.fileURL = URL(string: chooser.getURI())!
+                let fileURL = URL(string: chooser.getURI())!
 
                 // attempt to parse file and import data into view.
-                if let retrievedRecords = try? Record.load(from: self.fileURL!) {
+                if let retrievedRecords = try? Record.load(from: fileURL) {
                     self.records.items = retrievedRecords
                     self.updateViews()
                 }
@@ -110,9 +101,9 @@ class MainWindow: WindowModel {
             if case ResponseType.accept = ResponseType(chooser.run()) {
 
                 // retrieve URL string from chooser and convert it to a URL
-                self.fileURL = URL(string: chooser.getURI())!
+                let fileURL = URL(string: chooser.getURI())!
 
-                try? self.records.items.save(to: self.fileURL!)
+                try? self.records.items.save(to: fileURL)
             }
         }
 
@@ -272,11 +263,6 @@ class MainWindow: WindowModel {
     func updateCategoryList() {
         categoryStore.clear()
         loadCategoryStore()
-    }
-
-    private func loadRecords() {
-        guard let FILE_PATH = self.fileURL, let STORED_RECORDS = try? Record.load(from: FILE_PATH) else { return }
-        records.items = STORED_RECORDS
     }
 
     private func loadCategoryStore() {
