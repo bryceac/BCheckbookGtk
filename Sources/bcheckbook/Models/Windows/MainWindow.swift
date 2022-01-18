@@ -9,7 +9,7 @@ class MainWindow: WindowModel {
     lazy var store = ListStore(builder?.get("store", Gtk.ListStoreRef.init).list_store_ptr)!
     lazy var categoryStore = ListStore(builder?.get("categoryStore", Gtk.ListStoreRef.init).list_store_ptr)!
 
-    lazy var ledgerListView = ledgerListView(builder?.get("treeView", ListViewRef.init).tree_view_ptr)!
+    lazy var ledgerListView = TreeView(builder?.get("treeView", TreeViewRef.init).tree_view_ptr)!
 
     let iterator: TreeIter = TreeIter()
 
@@ -124,9 +124,26 @@ class MainWindow: WindowModel {
         }
 
         removeButton?.onClicked { _ in
-            let selection = ledgerListView.getSelection()
+            let selection = self.ledgerListView.getSelection()
+            var rowReferences: [TreeRowReference] = []
 
-            let selectedRow = selection.getSelectedRows()
+            if let rows = selection?.getSelectedRows() {
+                for row in rows {
+                    let rowReference = TreeRowReference(raw: row)
+                    rowReferences.append(rowReference)
+                }
+            }
+
+            for row in rowReferences {
+                guard let path = row.getPath() else { continue }
+
+                let record = self.records.sortedRecords[path.index]
+
+                self.records.remove(record)
+            }
+
+            self.updateViews()
+            
         }
 
         checkNumberCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
