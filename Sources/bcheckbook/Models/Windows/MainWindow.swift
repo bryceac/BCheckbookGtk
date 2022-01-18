@@ -309,7 +309,7 @@ class MainWindow: WindowModel {
     }
 
     private func balance(for record: Record) -> Double {
-        guard let databaseManager = DB.shared.manager, let recordBalance = try? databaseManager.balance(for: record) else { return }
+        guard let databaseManager = DB.shared.manager, let recordBalance = try? databaseManager.balance(for: record) else { return 0 }
         return recordBalance
     }
 
@@ -327,7 +327,7 @@ class MainWindow: WindowModel {
                         Value(record.event.category ?? "Uncategorized"),
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
                         "N/A",
-                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: 0.0))!))
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: balance(for: record)))!))
                     } else {
                         store.append(asNextRow: iterator,
                         Value(Event.DF.string(from: record.event.date)),
@@ -338,7 +338,7 @@ class MainWindow: WindowModel {
                         Value(record.event.category ?? "Uncategorized"),
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
                         "N/A",
-                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: 0.0))!))
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: balance(for: record)))!))
                     }
                 case .withdrawal:
                     if let checkNumber = record.event.checkNumber {
@@ -351,7 +351,7 @@ class MainWindow: WindowModel {
                         Value(record.event.category ?? "Uncategorized"),
                         "N/A",
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
-                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: 0.0))!))
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: balance(for: record)))!))
                     } else {
                         store.append(asNextRow: iterator,
                         Value(Event.DF.string(from: record.event.date)),
@@ -362,7 +362,7 @@ class MainWindow: WindowModel {
                         Value(record.event.category ?? "Uncategorized"),
                         "N/A",
                         Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: record.event.amount))!),
-                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: 0.0))!))
+                        Value(Event.CURRENCY_FORMAT.string(from: NSNumber(value: self.balance(for: record)))!))
                     }
             }
         }
