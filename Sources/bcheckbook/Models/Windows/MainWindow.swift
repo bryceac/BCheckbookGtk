@@ -63,7 +63,7 @@ class MainWindow: WindowModel {
             let chooser = FileChooserNative()
 
             // apply filter to chooser
-            choose.add(filter: filter)
+            chooser.add(filter: filter)
 
             // set labels on file chooser
             chooser.set(acceptLabel: "Open")
@@ -95,7 +95,7 @@ class MainWindow: WindowModel {
 
             // make sure default name is set correctly.
             chooser.setCurrent(name: "transactions")
-            chhooser.add(filter: filter)
+            chooser.add(filter: filter)
 
             // tell chooser it is meant to save
             chooser.set(action: FileChooserAction.save)
@@ -222,7 +222,7 @@ class MainWindow: WindowModel {
             let category = sortedCategories[categoryPath.index]
 
             record.event.category = category
-            self.update(record: category)
+            self.update(record: record)
         }
 
         depositCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in

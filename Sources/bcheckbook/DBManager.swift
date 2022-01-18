@@ -104,9 +104,9 @@ class DBManager {
      - parameter category: The category to be added to the database.
      */
     func add(category: String) throws  {
-        guard let categories = categories, !categories.contains(where: { category in
-                category.lowercased().contains(newValue.lowercased()) ||
-                category.caseInsensitiveCompare(newValue) == .orderedSame
+        guard let categories = categories, !categories.contains(where: { storedCategory in
+                storedCategory.lowercased().contains(category.lowercased()) ||
+                storedCategory.caseInsensitiveCompare(category) == .orderedSame
             }) else { return }
 
         try db.run(CATEGORY_TABLE.insert(CATEGORY_FIELD <- category))
