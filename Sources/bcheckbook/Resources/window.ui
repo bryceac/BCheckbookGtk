@@ -124,6 +124,7 @@
                 <child>
                   <object class="GtkCellRendererText" id="dateCellRenderer">
                     <property name="editable">True</property>
+                    <property name="placeholder-text">YYYY-MM-DD</property>
                   </object>
                   <attributes>
                     <attribute name="text">0</attribute>
@@ -164,6 +165,7 @@
                 <child>
                   <object class="GtkCellRendererText" id="vendorCellRenderer">
                     <property name="editable">True</property>
+                    <property name="placeholder-text">Vendor</property>
                   </object>
                   <attributes>
                     <attribute name="text">3</attribute>
@@ -178,6 +180,7 @@
                 <child>
                   <object class="GtkCellRendererText" id="memoCellRenderer">
                     <property name="editable">True</property>
+                    <property name="placeholder-text">Description</property>
                   </object>
                   <attributes>
                     <attribute name="text">4</attribute>
