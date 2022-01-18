@@ -1,0 +1,17 @@
+[Desktop Entry]
+
+Type=Application
+
+Version=1.0
+
+Name=BCheckbook
+
+Comment=Simple Checkbook Ledger
+
+Exec=/usr/local/bin/BCheckbook
+
+Icon=/usr/share/applications/bcheckbook_icon.png
+
+Terminal=false
+
+Categories=Office
