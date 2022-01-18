@@ -266,7 +266,7 @@ class MainWindow: WindowModel {
     }
 
     private func loadCategoryStore() {
-        for category in categories {
+        for category in categories.sorted(by: <) {
             categoryStore.append(asNextRow: categoryIterator, Value(category))
         }
     }
