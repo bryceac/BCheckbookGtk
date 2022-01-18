@@ -16,11 +16,11 @@ class MainWindow: WindowModel {
     lazy var mainArea = builder?.get("mainBox", BoxRef.init)
 
     // retrieve buttons, so that signals can be handled
-    lazy var importButton = builder?.get("importButton", ButtonRef.init)!
-    lazy var exportButton = builder?.get("exportButton", ButtonRef.init)!
+    lazy var importButton = builder?.get("importButton", ButtonRef.init)
+    lazy var exportButton = builder?.get("exportButton", ButtonRef.init)
 
-    lazy var addButton = builder?.get("addTransactionButton", ButtonRef.init)!
-    lazy var removeButton = builder?.get("removeTransactionButton", ButtonRef.init)!
+    lazy var addButton = builder?.get("addTransactionButton", ButtonRef.init)
+    lazy var removeButton = builder?.get("removeTransactionButton", ButtonRef.init)
 
 
     // retrieve cell renderers, so that data can be manipulated inside tree view.
@@ -61,6 +61,14 @@ class MainWindow: WindowModel {
 
         window.title = "Hello, World!"
         window.setDefaultSize(width: 800, height: 600)
+
+        importButton?.onClicked { _ in
+            let chooser = FileChooserNative()
+            chooser.set(acceptLabel: "Open")
+            chooser.set(cancelLabel: "Cancel")
+            chooser.run()
+            self.updateViews()
+        }
 
         checkNumberCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)
