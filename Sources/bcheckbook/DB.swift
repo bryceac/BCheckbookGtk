@@ -18,10 +18,14 @@ class DB {
     static let shared = DB()
     
     private init() {
+
+        let HOME_DIRECTORY = FileManager.default.homeDirectoryForCurrentUser
         
-        let DOCUMENTS_DIRECTORY = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let DATABASE_DIRECTORY = HOME_DIRECTORY.appendingPathComponent(".bcheckbook")
+
+        try? FileManager.default.createDirectory(at: DATABASE_DIRECTORY, withIntermediateDirectories: true)
         
-        url = DOCUMENTS_DIRECTORY.appendingPathComponent("register").appendingPathExtension("db")
+        url = DATABASE_DIRECTORY.appendingPathComponent("register").appendingPathExtension("db")
         
         if !FileManager.default.fileExists(atPath: url.absoluteString), let BUNDLE_PATH = Bundle.module.url(forResource: url.deletingPathExtension().lastPathComponent, withExtension: url.pathExtension) {
             try? FileManager.default.copyItem(at: BUNDLE_PATH, to: url)
