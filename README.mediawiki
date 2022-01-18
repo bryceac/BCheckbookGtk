@@ -143,7 +143,7 @@ that is not just better looking than the native macOS app with some kinks.
 <p>Used to implement UI in GTK.</p>
 </dd>
 <dt style="font-weight:bold">
-<a href="https://github.com/stephencelis/SQLite.swift">
+<a href="https://github.com/stephencelis/SQLite.swift">SQLite.swift</a>
 </dt>
 <dd>
 <p>Used to implement a database backend, 
