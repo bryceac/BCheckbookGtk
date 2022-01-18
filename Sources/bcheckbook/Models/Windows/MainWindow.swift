@@ -115,7 +115,11 @@ class MainWindow: WindowModel {
             if case ResponseType.accept = ResponseType(chooser.run()) {
 
                 // retrieve URL string from chooser and convert it to a URL
-                let fileURL = URL(string: chooser.getURI())!
+                var fileURL = URL(string: chooser.getURI())!
+
+                if fileURL.pathExtension != "bcheck" {
+                    fileURL.appendPathExtension("bcheck")
+                }
 
                 try? self.records.items.save(to: fileURL)
             }
