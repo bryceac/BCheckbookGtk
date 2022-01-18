@@ -10,7 +10,7 @@ SWIFT_FLAGS = -c release --disable-sandbox
 endif
 
 build:
-	$(shell ./run-gir2swift.sh)
+	./run-gir2swift.sh
 	swift build $(SWIFT_FLAGS)
 install: build
 ifneq (, $(findstring darwin, $(SYS)))
