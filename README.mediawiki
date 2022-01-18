@@ -158,7 +158,8 @@ I would like to express my appreciation to
 Mikoláš Stuchlík and Rene Hexel for the help that they gave me, 
 even if I did annoy them, 
 since I was kind of weak in abilities of using Google 
-and converting Python and C examples into Swift code.
+and converting Python and C examples into Swift code 
+when I started this project.
 
 Mikoláš Stuchlík gets the most appreciation though because 
 they fixed up my code and 
