@@ -114,6 +114,13 @@ class MainWindow: WindowModel {
             }
         }
 
+        addButton?.onClicked { _ in
+            let record = Record()
+
+            self.records.add(record)
+            self.updateViews()
+        }
+
         checkNumberCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)
 
