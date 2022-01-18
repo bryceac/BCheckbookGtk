@@ -305,6 +305,11 @@ class MainWindow: WindowModel {
         updateViews()
     }
 
+    private func add(records: [Record]) {
+        guard let databaseManager = DB.shared.manager else { return }
+        try? databaseManager.add(records: records)
+    }
+
     private func loadStore() {
         for record in records.sortedRecords {
             switch record.event.type {
