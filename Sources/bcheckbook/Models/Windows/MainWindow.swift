@@ -125,7 +125,7 @@ class MainWindow: WindowModel {
 
         removeButton?.onClicked { _ in
             let selection = self.ledgerListView.getSelection()
-            let selectedRow = selection?.getSelected(iter: self.iterator)
+            let _ = selection?.getSelected(iter: self.iterator)
 
             if let path = self.store.getPath(iter: self.iterator) {
                 let record = self.records.sortedRecords[path.index]
@@ -207,7 +207,7 @@ class MainWindow: WindowModel {
             self.updateViews()
 
             guard !newValue.isEmpty && newValue != "Uncategorized" else { return }
-            guard !self.categories.containts(where: { category in
+            guard !self.categories.contains(where: { category in
                 category.lowercased().contains(newValue.lowercased()) ||
                 category.caseInsensitiveCompare(newValue) == .orderedSame
             }) else { return }
