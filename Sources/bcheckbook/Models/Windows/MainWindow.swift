@@ -87,6 +87,30 @@ class MainWindow: WindowModel {
             }
         }
 
+        exportButton?.onClicked { _ in
+
+            // create File Chooser, to allow user to specify specific file
+            let chooser = FileChooserNative()
+
+            // tell chooser it is meant to save
+            chooser.set(action: FileChooserAction.save)
+
+            // set labels on file chooser
+            chooser.set(acceptLabel: "Export")
+            chooser.set(cancelLabel: "Cancel")
+
+            /*
+            run dialog and convert response to ResponseType, 
+            in order to make sure data is only imported when desired. */
+            if case ResponseType.accept = ResponseType(chooser.run()) {
+
+                // retrieve URL string from chooser and convert it to a URL
+                self.fileURL = URL(string: chooser.getURI())!
+
+                try? self.records.items.save(to: self.fileURL!)
+            }
+        }
+
         checkNumberCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)
 
