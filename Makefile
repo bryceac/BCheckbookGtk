@@ -22,6 +22,10 @@ ifneq (, $(findstring darwin, $(SYS)))
 else
 	install -D ".build/release/bcheckbook" "$(bindir)/bcheckbook"
 
+	install -D "BCheckbook.desktop" "/usr/shared/applications"
+
+	install -D "bcheckbook_icon.png" "/usr/share/icons"
+
 	rsync -zavrh --progress ".build/release/bcheckbook_bcheckbook.resources" "$(bindir)"
 endif
 uninstall:

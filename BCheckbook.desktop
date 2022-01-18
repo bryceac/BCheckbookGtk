@@ -10,7 +10,7 @@ Comment=Simple Checkbook Ledger
 
 Exec=/usr/local/bin/BCheckbook
 
-Icon=/usr/share/applications/bcheckbook_icon.png
+Icon=/usr/share/icons/bcheckbook_icon.png
 
 Terminal=false
 
