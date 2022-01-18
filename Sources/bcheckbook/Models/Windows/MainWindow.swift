@@ -99,6 +99,7 @@ class MainWindow: WindowModel {
 
             // tell chooser it is meant to save
             chooser.set(action: FileChooserAction.save)
+            chooser.set(action: FileChooserAction.createFolder)
 
             // set labels on file chooser
             chooser.set(acceptLabel: "Export")
