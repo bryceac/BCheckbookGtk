@@ -89,7 +89,7 @@ class MainWindow: WindowModel {
 
         exportButton?.onClicked { _ in
 
-            // create File Chooser, to allow user to specify specific file
+            // create File Chooser, to allow user to specify where to save.
             let chooser = FileChooserNative()
 
             // tell chooser it is meant to save
@@ -99,7 +99,7 @@ class MainWindow: WindowModel {
             chooser.set(acceptLabel: "Export")
             chooser.set(cancelLabel: "Cancel")
 
-            // make sure user does not accidentallt overwrite file
+            // make sure user does not accidentally overwrite file
             chooser.set(doOverwriteConfirmation: true)
 
             /*
