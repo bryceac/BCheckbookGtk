@@ -16,18 +16,18 @@ install: build
 ifneq (, $(findstring darwin, $(SYS)))
 	test ! -d $(bindir) && mkdir -p $(bindir)
 
-	install ".build/release/actual" "$(bindir)/actual"
+	install ".build/release/bcheckbook" "$(bindir)/bcheckbook"
 
-	rsync -zavrh --progress ".build/release/actual_actual.resources" "$(bindir)"
+	rsync -zavrh --progress ".build/release/bcheckbook_bcheckbook.resources" "$(bindir)"
 else
-	install -D ".build/release/actual" "$(bindir)/actual"
+	install -D ".build/release/bcheckbook" "$(bindir)/bcheckbook"
 
-	rsync -zavrh --progress ".build/release/actual_actual.resources" "$(bindir)"
+	rsync -zavrh --progress ".build/release/bcheckbook_bcheckbook.resources" "$(bindir)"
 endif
 uninstall:
-	rm -rf "$(bindir)/actual"
+	rm -rf "$(bindir)/bcheckbook"
 
-	rm -rf "$(bindir)/actual_actual.resources"
+	rm -rf "$(bindir)/bcheckbook_bcheckbook.resources"
 clean:
 	rm -rf .build
 .PHONY: build install uninstall clean
