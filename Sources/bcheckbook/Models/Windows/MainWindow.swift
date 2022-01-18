@@ -289,6 +289,14 @@ class MainWindow: WindowModel {
         updateCategoryList()
     }
 
+    private func add(record: Record) {
+        guard let databaseManager = DB.shared.manager else { return }
+
+        try? databaseManager.add(record: record)
+        loadRecords()
+        updateViews()
+    }
+
     private func loadStore() {
         for record in records.sortedRecords {
             switch record.event.type {
