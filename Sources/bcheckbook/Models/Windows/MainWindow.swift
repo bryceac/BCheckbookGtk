@@ -47,8 +47,6 @@ class MainWindow: WindowModel {
     // create property to house the transactions
     let records = Records()
 
-    var categories = ["Hello", "World", "7"]
-
     override func make(window: Gtk.Window) {
         super.make(window: window)
 
@@ -198,13 +196,13 @@ class MainWindow: WindowModel {
             self.updateViews()
 
             guard !newValue.isEmpty && newValue != "Uncategorized" else { return }
-            guard !self.categories.contains(where: { category in
+            guard let databaseManager = DB.shared.manager, let categories = databaseManager.categories else { return }
+            guard !categories.contains(where: { category in
                 category.lowercased().contains(newValue.lowercased()) ||
                 category.caseInsensitiveCompare(newValue) == .orderedSame
             }) else { return }
 
-            self.categories.append(newValue)
-            self.updateCategoryList()
+            self.add(category: newValue)
         }
 
         categoryCell?.onChanged{ (unownedSelf: CellRendererComboRef, path: String, selectedIterator: TreeIterRef) in
@@ -266,9 +264,19 @@ class MainWindow: WindowModel {
     }
 
     private func loadCategoryStore() {
+        guard let databaseManager = DB.shared.manager, let categories = databaseManager.categories else { return }
+
         for category in categories.sorted(by: <) {
             categoryStore.append(asNextRow: categoryIterator, Value(category))
         }
+    }
+
+    private func add(category: String) {
+        guard let databaseManager = DB.shared.manager else { return }
+
+        try? databaseManager.add(category: category)
+
+        updateCategoryList()
     }
 
     private func loadStore() {
