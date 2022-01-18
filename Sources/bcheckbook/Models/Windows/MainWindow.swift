@@ -94,7 +94,7 @@ class MainWindow: WindowModel {
             let chooser = FileChooserNative()
 
             // make sure default name is set correctly.
-            chooser.setCurrent(name: "transactions")
+            chooser.setCurrent(name: "transactions.bcheck")
             chooser.add(filter: filter)
 
             // tell chooser it is meant to save
