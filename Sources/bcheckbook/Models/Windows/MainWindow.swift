@@ -50,7 +50,7 @@ class MainWindow: WindowModel {
     override func make(window: Gtk.Window) {
         super.make(window: window)
 
-        window.title = "Hello, World!"
+        window.title = "BCheckbook"
         window.setDefaultSize(width: 800, height: 600)
 
         importButton?.onClicked { _ in
