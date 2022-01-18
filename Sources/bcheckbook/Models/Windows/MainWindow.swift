@@ -66,8 +66,14 @@ class MainWindow: WindowModel {
             let chooser = FileChooserNative()
             chooser.set(acceptLabel: "Open")
             chooser.set(cancelLabel: "Cancel")
-            chooser.run()
-            self.updateViews()
+            if case .accept = chooser.run() {
+                let fileURL = URL(string: chooser.getURI())!
+
+                if let retrievedRecords = Record.load(from: fileURL) {
+                    records.items = retrievedRecords
+                    self.updateViews()
+                }
+            }
         }
 
         checkNumberCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
