@@ -98,7 +98,6 @@ class MainWindow: WindowModel {
             chooser.add(filter: filter)
 
             // tell chooser it is meant to save
-            chooser.set(action: FileChooserAction.save)
             chooser.set(action: FileChooserAction.createFolder)
 
             // set labels on file chooser
