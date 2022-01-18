@@ -55,8 +55,15 @@ class MainWindow: WindowModel {
 
         importButton?.onClicked { _ in
 
+            // create filter to ensure files are the ones opened
+            let filter = FileFilter()
+            filter.add(pattern: "*.bcheck")
+
             // create File Chooser, to allow user to specify specific file
             let chooser = FileChooserNative()
+
+            // apply filter to chooser
+            choose.add(filter: filter)
 
             // set labels on file chooser
             chooser.set(acceptLabel: "Open")
@@ -79,8 +86,16 @@ class MainWindow: WindowModel {
 
         exportButton?.onClicked { _ in
 
+            // create filter to ensure files are saved as bcheck files
+            let filter = FileFilter()
+            filter.add(pattern: "*.bcheck")
+
             // create File Chooser, to allow user to specify where to save.
             let chooser = FileChooserNative()
+
+            // make sure default name is set correctly.
+            chooser.setCurrent(name: "transactions")
+            chhooser.add(filter: filter)
 
             // tell chooser it is meant to save
             chooser.set(action: FileChooserAction.save)
