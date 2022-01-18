@@ -132,3 +132,36 @@ but since this is my first foray in GTK
 and GUI programming for Linux, help would be much appreciated 
 and would finally make this application into something 
 that is not just better looking than the native macOS app with some kinks.
+
+===Projects Used===
+
+<dl>
+<dt style="font-weight:bold">
+<a href="https://github.com/rhx/SwiftGtk">SwiftGtk</a>
+</dt>
+<dd>
+<p>Used to implement UI in GTK.</p>
+</dd>
+<dt style="font-weight:bold">
+<a href="https://github.com/stephencelis/SQLite.swift">
+</dt>
+<dd>
+<p>Used to implement a database backend, 
+making it easier to have running totals 
+and add category support.</p>
+</dd>
+</dl>
+
+===Appreciation===
+
+I would like to express my appreciation to 
+Mikoláš Stuchlík and Rene Hexel for the help that they gave me, 
+even if I did annoy them, 
+since I was kind of weak in abilities of using Google 
+and converting Python and C examples into Swift code.
+
+Mikoláš Stuchlík gets the most appreciation though because 
+they fixed up my code and 
+provided examples to get things into a state 
+that made coding as simple as using the 
+UIKit and AppKit frameworks from Apple.
