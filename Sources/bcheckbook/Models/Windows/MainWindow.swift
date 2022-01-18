@@ -63,12 +63,23 @@ class MainWindow: WindowModel {
         window.setDefaultSize(width: 800, height: 600)
 
         importButton?.onClicked { _ in
+
+            // create File Chooser, to allow user to specify specific file
             let chooser = FileChooserNative()
+
+            // set labels on file chooser
             chooser.set(acceptLabel: "Open")
             chooser.set(cancelLabel: "Cancel")
-            if case ResponseType.accept = ResponseType(chooser.run()) {
+
+            /*
+            run dialog and convert response to ResponseType, 
+            in order to make sure data is only imported when desired. */
+            if case .accept = ResponseType(chooser.run()) {
+
+                // retrieve URL string from chooser and convert it to a URL
                 self.fileURL = URL(string: chooser.getURI())!
 
+                // attempt to parse file and import data into view.
                 if let retrievedRecords = try? Record.load(from: self.fileURL!) {
                     self.records.items = retrievedRecords
                     self.updateViews()
