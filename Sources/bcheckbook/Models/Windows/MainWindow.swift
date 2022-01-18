@@ -189,15 +189,7 @@ class MainWindow: WindowModel {
             }
 
             self.update(record: record)
-
-            guard !newValue.isEmpty && newValue != "Uncategorized" else { return }
-            guard let databaseManager = DB.shared.manager, let categories = databaseManager.categories else { return }
-            guard !categories.contains(where: { category in
-                category.lowercased().contains(newValue.lowercased()) ||
-                category.caseInsensitiveCompare(newValue) == .orderedSame
-            }) else { return }
-
-            self.add(category: newValue)
+            self.updateCategoryList()
         }
 
         categoryCell?.onChanged{ (unownedSelf: CellRendererComboRef, path: String, selectedIterator: TreeIterRef) in
@@ -215,6 +207,7 @@ class MainWindow: WindowModel {
             let category = sortedCategories[categoryPath.index]
 
             record.event.category = category
+            self.update(record: category)
         }
 
         depositCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
@@ -228,7 +221,7 @@ class MainWindow: WindowModel {
             record.event.amount = amount
             record.event.type = .deposit
 
-            self.updateViews()
+            self.update(record: record)
         }
 
         withdrawalCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
@@ -242,7 +235,7 @@ class MainWindow: WindowModel {
             record.event.amount = amount
             record.event.type = .withdrawal
             
-            self.updateViews()
+            self.update(record: record)
         }
         window.add(widget: mainArea!)
     }
