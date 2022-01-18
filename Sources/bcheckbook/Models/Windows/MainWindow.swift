@@ -275,6 +275,12 @@ class MainWindow: WindowModel {
         }
     }
 
+    private func loadRecords() {
+        guard let databaseManager = DB.shared.manager, let storedRecords = try? databaseManager.records(inRange: .all) else { return }
+
+        records.items = storedRecords 
+    }
+
     private func add(category: String) {
         guard let databaseManager = DB.shared.manager else { return }
 
