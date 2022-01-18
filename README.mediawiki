@@ -24,6 +24,12 @@ Not only would the experience be a little better on macOS and iOS,
 but it can help me out financially and you <strong>should</strong> 
 be able to get both the iOS and Mac app after only buying one version.
 
+===Building===
+
+To build this project, you need to follow the steps as outlined in the <a href="https://github.com/rhx/SwiftGtk#prerequisites">prequisites</a> section of SwiftGtk's README.
+
+After that, the <strong>make</strong> command can be used to create the Swift wrappers and compile the source.
+
 ===Questions===
 
 <ol>
