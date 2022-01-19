@@ -6,7 +6,7 @@ SYS := $(shell $(CC) -dumpmachine)
 SWIFT_FLAGS =
 
 ifneq (, $(findstring linux, $(SYS)))
-SWIFT_FLAGS = -c release -static-stdlib -static-executable
+SWIFT_FLAGS = -static-stdlib -static-executable -c release
 else
 SWIFT_FLAGS = -c release --disable-sandbox
 endif
