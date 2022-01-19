@@ -12,7 +12,7 @@ endif
 build:
 	./run-gir2swift.sh
 	swift build $(SWIFT_FLAGS)
-install: build
+install:
 ifneq (, $(findstring darwin, $(SYS)))
 	test ! -d $(bindir) && mkdir -p $(bindir)
 
