@@ -1,5 +1,7 @@
 prefix ?= /usr/local
 bindir = $(prefix)/bin
+icondir ?= /usr/share/icons
+launcherdir ?= /usr/share/applications
 SYS := $(shell $(CC) -dumpmachine)
 SWIFT_FLAGS =
 
@@ -22,9 +24,9 @@ ifneq (, $(findstring darwin, $(SYS)))
 else
 	install -D ".build/release/bcheckbook" "$(bindir)/bcheckbook"
 
-	install -D "BCheckbook.desktop" "/usr/share/applications"
+	install -D "BCheckbook.desktop" "${launcherdir}"
 
-	install -D "bcheckbook_icon.png" "/usr/share/icons"
+	install -D "bcheckbook_icon.png" "${icondir}"
 
 	rsync -zavrh --progress ".build/release/bcheckbook_bcheckbook.resources" "$(bindir)"
 endif
@@ -33,8 +35,8 @@ uninstall:
 
 	rm -rf "$(bindir)/bcheckbook_bcheckbook.resources"
 
-	rm -f "/usr/share/applications/BCheckbook.desktop"
-	rm -f "/usr/share/icons/bcheckbook_icon.png"
+	rm -f "${launcherdir}/BCheckbook.desktop"
+	rm -f "${icondir}/bcheckbook_icon.png"
 clean:
 	rm -rf .build
 .PHONY: build install uninstall clean
