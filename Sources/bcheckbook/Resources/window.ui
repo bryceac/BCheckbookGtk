@@ -86,7 +86,7 @@
                 <property name="editable">True</property>
                 <property name="hexpand">True</property>
                 <property name="vexpand">False</property>
-                <property name="placeholde-text">search transactions</property>
+                <property name="placeholder-text">search transactions</property>
               </object>
             </child>
           </object>
