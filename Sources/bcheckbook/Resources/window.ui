@@ -70,6 +70,27 @@
               </child> <!-- close export transactions area -->
           </object>
         </child> <!-- close top left area -->
+        <!-- create center area -->
+        <child>
+          <object class="GtkBox" id="center">
+            <property name="visible">True</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">False</property>
+            <property name="halign">center</property>
+            <property name="orientation">horizontal</property>
+            <!-- add search field -->
+            <child>
+              <object class="GtkSearchEntry" id="searchField">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="editable">True</property>
+                <property name="hexpand">True</property>
+                <property name="vexpand">False</property>
+                <property name="placeholde-text">search transactions</property>
+              </object>
+            </child>
+          </object>
+        </child> <!-- close center area. -->
         <!-- create area for top right -->
         <child>
           <object class="GtkBox" id="topRight">
