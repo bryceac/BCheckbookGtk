@@ -1,6 +1,6 @@
 =BCheckbook=
 
-'''Version:''' 0.1
+'''Version:''' 0.2
 
 '''Author:''' Bryce Campbell
 
@@ -23,6 +23,22 @@ macOS 12 and later.
 Not only would the experience be a little better on macOS and iOS, 
 but it can help me out financially and you <strong>should</strong> 
 be able to get both the iOS and Mac app after only buying one version.
+
+===Version History===
+
+<dl>
+<dt style="font-weight:bold">0.2</dt>
+<dd>
+<p>Minor update.</p>
+<p>Added in basic search functionality similiar to the mac and iOS apps.</p>
+<p>Week of Jan. 24, 2022.</p>
+</dd>
+<dt style="font-weight:bold">0.1</dt>
+<dd>
+<p>Initial release.</p>
+<p>Released Jan. 9, 2022</p>
+</dd>
+</dl>
 
 ===Building===
 
