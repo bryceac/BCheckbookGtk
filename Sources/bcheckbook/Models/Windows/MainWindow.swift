@@ -51,6 +51,9 @@ class MainWindow: WindowModel {
     lazy var withdrawalCell = builder?.get("withdrawalCellRenderer", CellRendererTextRef.init)
 
     var application: ApplicationRef? = nil
+
+    // create query variable, so that searching can affect list
+    var query = ""
  
     // create property to house the transactions
     let records = Records()
@@ -134,7 +137,7 @@ class MainWindow: WindowModel {
         }
 
         searchField?.onSearchChanged { searchEntry in
-            let query = searchEntry.buffer.text 
+            self.query = searchEntry.buffer.text 
         }
 
         addButton?.onClicked { _ in
