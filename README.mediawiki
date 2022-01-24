@@ -46,6 +46,28 @@ To build this project, you need to follow the steps as outlined in the <a href="
 
 After that, the <strong>make</strong> command can be used to create the Swift wrappers and compile the source.
 
+===Usage===
+
+The application is relatively simple to use, 
+as it should work relatively similiarly to other table-based apps,
+though I have noted issues regarding tabbing.
+
+Unlike the apps for mac and iOS, 
+this app will recognize credit 
+and debit values entered with just numerical input.
+
+However, dates can only be modified by strings in the YYYY-MM-DD format.
+
+While I would have liked to have some sort of date picker, as noted under 
+[[#Contributing | Contributing]], the GTK framework does not include one, 
+so string manipulation is the only way it could go.
+
+====Searching Records====
+
+Searching follows the sane procedures as outlined in the 
+<a href="https://github.com/bryceac/BCheckbook#Searching_Records">Searching Records section</a>
+of the README for version 1.1 of the original application.
+
 ===Questions===
 
 <ol>
