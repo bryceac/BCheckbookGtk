@@ -53,7 +53,11 @@ class MainWindow: WindowModel {
     var application: ApplicationRef? = nil
 
     // create query variable, so that searching can affect list
-    var query = ""
+    var query = "" {
+        didSet {
+            updateViews()
+        }
+    }
  
     // create property to house the transactions
     let records = Records()
@@ -382,7 +386,7 @@ class MainWindow: WindowModel {
     }
 
     private func loadStore() {
-        for record in records.sortedRecords {
+        for record in filteredRecords {
             switch record.event.type {
                 case .deposit:
                     if let checkNumber = record.event.checkNumber {
