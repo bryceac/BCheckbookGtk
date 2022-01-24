@@ -4,13 +4,18 @@ import GLibObject
 import Foundation
 
 class MainWindow: WindowModel {
+
+    // attempt to read file for main window.
     var builder: Builder? = Builder("window")
 
+    // implement liststores to house data for tree view and combo box
     lazy var store = ListStore(builder?.get("store", Gtk.ListStoreRef.init).list_store_ptr)!
     lazy var categoryStore = ListStore(builder?.get("categoryStore", Gtk.ListStoreRef.init).list_store_ptr)!
 
+    // add variable for tree view to get current selection for deltion method
     lazy var ledgerListView = TreeView(builder?.get("treeView", TreeViewRef.init).tree_view_ptr)!
 
+    // implement iterators, to talk to list stores
     let iterator: TreeIter = TreeIter()
 
     let categoryIterator = TreeIter()
@@ -23,6 +28,9 @@ class MainWindow: WindowModel {
 
     lazy var addButton = builder?.get("addTransactionButton", ButtonRef.init)
     lazy var removeButton = builder?.get("removeTransactionButton", ButtonRef.init)
+
+    // connect search field to code.
+    lazy var searchField = builder?.get("searchField", SearchEntryRef.init)
 
 
     // retrieve cell renderers, so that data can be manipulated inside tree view.
