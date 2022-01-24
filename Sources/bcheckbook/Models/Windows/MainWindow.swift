@@ -133,6 +133,10 @@ class MainWindow: WindowModel {
             }
         }
 
+        searchField?.onSearchChanged { searchEntry in
+            let query = searchEntry.buffer.text 
+        }
+
         addButton?.onClicked { _ in
             let record = Record()
 
