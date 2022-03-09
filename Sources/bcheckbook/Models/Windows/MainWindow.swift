@@ -106,6 +106,8 @@ class MainWindow: WindowModel {
             let filter = FileFilter()
             filter.add(pattern: "*.bcheck")
             filter.set(name: "BCheckbook Files")
+            filter.add(pattern: "*.qif")
+            filter.set(name: "Quicken Interchange Format")
 
             // create File Chooser, to allow user to specify specific file
             let chooser = FileChooserNative()
@@ -138,6 +140,8 @@ class MainWindow: WindowModel {
             let filter = FileFilter()
             filter.add(pattern: "*.bcheck")
             filter.set(name: "BCheckbook Files")
+            filter.add(pattern: "*.qif")
+            filter.set(name: "Quicken Interchange Format")
 
             // create File Chooser, to allow user to specify where to save.
             let chooser = FileChooserNative()
