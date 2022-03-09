@@ -188,7 +188,7 @@ class MainWindow: WindowModel {
 
                 switch fileURL.pathExtension {
                     case "bcheck":
-                        try? self.records.items.save(to: fileURL)
+                        try? self.records.items.save(to: fileURL.appendingPathExtension("bcheck"))
                     default:
                         let transactions = self.records.sortedRecords.map { record in
                             QIFTransaction(record.event)
@@ -198,7 +198,7 @@ class MainWindow: WindowModel {
 
                         let qif = QIF(sections: [bank.type.rawValue: bank])
 
-                        try? qif.save(to: fileURL)
+                        try? qif.save(to: fileURL.appendingPathExtension("qif"))
                 }
             }
         }
