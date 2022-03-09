@@ -139,11 +139,7 @@ class MainWindow: WindowModel {
                         }
                     default:
                         if let qif = try? QIF.load(from: fileURL), let bank = qif.sections[QIFType.bank.rawValue] {
-                            let retrievedRecords = bank.transactions.map {
-                                Record(transaction: Event($0))
-                            }
-
-                            self.add(records: retrievedRecords)
+                            print(bank.transactions.count)
                         }
                 }
             }
