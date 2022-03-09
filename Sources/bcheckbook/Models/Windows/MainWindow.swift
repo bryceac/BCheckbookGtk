@@ -184,7 +184,7 @@ class MainWindow: WindowModel {
             if case ResponseType.accept = ResponseType(chooser.run()) {
 
                 // retrieve URL string from chooser and convert it to a URL
-                var fileURL = URL(string: chooser.getURI())!
+                let fileURL = URL(string: chooser.getURI())!
 
                 switch fileURL.pathExtension {
                     case "bcheck":
