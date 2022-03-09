@@ -103,17 +103,20 @@ class MainWindow: WindowModel {
         importButton?.onClicked { _ in
 
             // create filter to ensure files are the ones opened
-            let filter = FileFilter()
-            filter.add(pattern: "*.bcheck")
-            filter.set(name: "BCheckbook Files")
-            filter.add(pattern: "*.qif")
-            filter.set(name: "Quicken Interchange Format")
+            let bcheckFilter = FileFilter()
+            bcheckFilter.add(pattern: "*.bcheck")
+            bcheckFilter.set(name: "BCheckbook Files")
+
+            let qifFilter = FileFilter()
+            qifFilter.add(pattern: "*.qif")
+            qifFilter.set(name: "Quicken Interchange Format")
 
             // create File Chooser, to allow user to specify specific file
             let chooser = FileChooserNative()
 
-            // apply filter to chooser
-            chooser.add(filter: filter)
+            // apply filters to chooser
+            chooser.add(filter: bcheckFilter)
+            chooser.add(filter: qifFilter)
 
             // set labels on file chooser
             chooser.set(acceptLabel: "Import")
@@ -137,11 +140,13 @@ class MainWindow: WindowModel {
         exportButton?.onClicked { _ in
 
             // create filter to ensure files are saved as bcheck files
-            let filter = FileFilter()
-            filter.add(pattern: "*.bcheck")
-            filter.set(name: "BCheckbook Files")
-            filter.add(pattern: "*.qif")
-            filter.set(name: "Quicken Interchange Format")
+            let bcheckFilter = FileFilter()
+            bcheckFilter.add(pattern: "*.bcheck")
+            bcheckFilter.set(name: "BCheckbook Files")
+
+            let qifFilter = FileFilter()
+            qifFilter.add(pattern: "*.qif")
+            qifFilter.set(name: "Quicken Interchange Format")
 
             // create File Chooser, to allow user to specify where to save.
             let chooser = FileChooserNative()
@@ -151,7 +156,8 @@ class MainWindow: WindowModel {
 
             // make sure default name is set correctly.
             chooser.setCurrent(name: "transactions")
-            chooser.add(filter: filter)
+            chooser.add(filter: bcheckFilter)
+            chooser.add(filter: qifFilter)
 
             // set labels on file chooser
             chooser.set(acceptLabel: "Export")
