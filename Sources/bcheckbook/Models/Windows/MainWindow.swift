@@ -186,11 +186,20 @@ class MainWindow: WindowModel {
                 // retrieve URL string from chooser and convert it to a URL
                 var fileURL = URL(string: chooser.getURI())!
 
-                if fileURL.pathExtension != "bcheck" {
-                    fileURL.appendPathExtension("bcheck")
-                }
+                switch fileURL.pathExtension {
+                    case "bcheck":
+                        try? self.records.items.save(to: fileURL)
+                    default:
+                        let transactions = self.records.sortedRecords.map { record in
+                            QIFTransaction(record.event)
+                        }
 
-                try? self.records.items.save(to: fileURL)
+                        let bank = QIFSection(type: .bank, transactions: Set(transactions))
+
+                        let qif = QIF(sections: [bank.type.rawValue: bank])
+
+                        try? qif.save(to: fileURL)
+                }
             }
         }
 
