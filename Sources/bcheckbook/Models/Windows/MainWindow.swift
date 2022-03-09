@@ -2,6 +2,7 @@ import Gtk
 import Gdk
 import GLibObject
 import Foundation
+import QIF
 
 class MainWindow: WindowModel {
 
@@ -131,8 +132,19 @@ class MainWindow: WindowModel {
                 let fileURL = URL(string: chooser.getURI())!
 
                 // attempt to parse file and import data into view.
-                if let retrievedRecords = try? Record.load(from: fileURL) {
-                    self.add(records: retrievedRecords)
+                switch fileURL.pathExtension {
+                    case "bcheck":
+                        if let retrievedRecords = try? Record.load(from: fileURL) {
+                            self.add(records: retrievedRecords)
+                        }
+                    default:
+                        if let qif = try? QIF.load(from: fileURL), let bank = qif.sections[QIFType.bank.rawValue] {
+                            let retrievedRecords = bank.transactions.map {
+                                Record(transaction: Event($0))
+                            }
+
+                            self.add(records: retrievedRecords)
+                        }
                 }
             }
         }
