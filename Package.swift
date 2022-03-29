@@ -7,7 +7,7 @@ let package = Package(
     name: "bcheckbook",
     dependencies: [
         .package(name: "gir2swift", url: "https://github.com/rhx/gir2swift.git", .branch("main")),
-        .package(name: "Gtk", url: "https://github.com/rhx/SwiftGtk.git", .branch("gtk3")),
+        .package(name: "Gtk", url: "https://github.com/rhx/SwiftGtk.git", .branch("gtk4")),
         .package(url: "https://github.com/stephencelis/SQLite.swift.git", from: "0.13.1"),
         .package(url: "https://github.com/bryceac/QIF", .upToNextMinor(from: "0.1.1"))
     ],
