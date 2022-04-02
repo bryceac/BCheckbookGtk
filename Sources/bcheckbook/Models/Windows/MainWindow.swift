@@ -182,7 +182,7 @@ class MainWindow: WindowModel {
 
             chooser.mset(modal: true)
 
-            choose.onResponse { dialog, id in
+            chooser.onResponse { dialog, id in
                 /*
                 run dialog and convert response to ResponseType, 
                 in order to make sure data is only imported when desired. */
