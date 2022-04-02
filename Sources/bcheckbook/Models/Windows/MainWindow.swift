@@ -213,8 +213,8 @@ class MainWindow: WindowModel {
             let selection = self.ledgerListView.getSelection()
             let _ = selection?.getSelected(iter: self.iterator)
 
-            if let path = self.store.getPath(iter: self.iterator) {
-                let record = self.records.sortedRecords[path.index]
+            if let path = self.store.getPath(iter: self.iterator), let pathIndex = path.index {
+                let record = self.records.sortedRecords[pathIndex]
 
                 self.remove(record: record)
             }
@@ -223,7 +223,9 @@ class MainWindow: WindowModel {
         checkNumberCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)
 
-            let RECORD_ID = self.records.sortedRecords[path.index].id
+            guard let pathIndex = path.index else { return }
+
+            let RECORD_ID = self.records.sortedRecords[pathIndex].id
             guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
 
             self.update(record: record)
@@ -233,9 +235,9 @@ class MainWindow: WindowModel {
         dateCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)
 
-            guard let newDate = Event.DF.date(from: newValue) else { return } 
+            guard let newDate = Event.DF.date(from: newValue), let pathIndex = path.index else { return } 
 
-            let RECORD_ID = self.records.sortedRecords[path.index].id
+            let RECORD_ID = self.records.sortedRecords[pathIndex].id
             guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
 
             record.event.date = newDate
@@ -246,7 +248,9 @@ class MainWindow: WindowModel {
         isReconciledCell?.onToggled { [weak self] _, string in
             let path = TreePath(string: string)
 
-            let RECORD_ID = self?.records.sortedRecords[path.index].id
+            guard let pathIndex = path.index else { return }
+
+            let RECORD_ID = self?.records.sortedRecords[pathIndex].id
             guard let record = self?.records.items.first(where: { $0.id == RECORD_ID }) else { return }
             record.event.isReconciled.toggle()
 
@@ -256,7 +260,9 @@ class MainWindow: WindowModel {
         vendorCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)
 
-            let RECORD_ID = self.records.sortedRecords[path.index].id
+            guard let pathIndex = path.index else { return }
+
+            let RECORD_ID = self.records.sortedRecords[pathIndex].id
             guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
 
             record.event.vendor = newValue
@@ -267,7 +273,9 @@ class MainWindow: WindowModel {
         memoCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)
 
-            let RECORD_ID = self.records.sortedRecords[path.index].id
+            guard let pathIndex = path.index else { return }
+
+            let RECORD_ID = self.records.sortedRecords[pathIndex].id
             guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
 
             record.event.memo = newValue
@@ -278,7 +286,9 @@ class MainWindow: WindowModel {
         categoryCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)
 
-            let RECORD_ID = self.records.sortedRecords[path.index].id
+            guard let pathIndex = path.index else { return }
+
+            let RECORD_ID = self.records.sortedRecords[pathIndex].id
             guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
 
             if newValue.isEmpty || newValue == "Uncategorized" {
@@ -293,17 +303,22 @@ class MainWindow: WindowModel {
 
         categoryCell?.onChanged{ (unownedSelf: CellRendererComboRef, path: String, selectedIterator: TreeIterRef) in
             let recordPath = TreePath(string: path)
-            let RECORD_ID = self.records.sortedRecords[recordPath.index].id
+
+            guard let recordPathIndex = recordPath.index else { return }
+
+            let RECORD_ID = self.records.sortedRecords[recordPathIndex].id
 
             guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
 
             let categoryPath = self.categoryStore.getPath(iter: selectedIterator)!
 
+            guard let categoryPathIndex = categoryPath.index else { return }
+
             guard let databaseManager = DB.shared.manager, let categories = databaseManager.categories else { return }
 
             let sortedCategories = categories.sorted(by: <)
 
-            let category = sortedCategories[categoryPath.index]
+            let category = sortedCategories[categoryPathIndex]
 
             record.event.category = category
             self.update(record: record)
@@ -312,9 +327,9 @@ class MainWindow: WindowModel {
         depositCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)
 
-            guard let amount = Double(newValue) else { return }
+            guard let amount = Double(newValue), let pathIndex = path.index else { return }
 
-            let RECORD_ID = self.records.sortedRecords[path.index].id
+            let RECORD_ID = self.records.sortedRecords[pathIndex].id
             guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
 
             record.event.amount = amount
@@ -326,9 +341,9 @@ class MainWindow: WindowModel {
         withdrawalCell?.onEdited { (_ unOwnedSelf: CellRendererTextRef, _ path: String, _ newValue: String) in
             let path = TreePath(string: path)
 
-            guard let amount = Double(newValue) else { return }
+            guard let amount = Double(newValue), let pathIndex = path.index else { return }
 
-            let RECORD_ID = self.records.sortedRecords[path.index].id
+            let RECORD_ID = self.records.sortedRecords[pathIndex].id
             guard let record = self.records.items.first(where: { $0.id == RECORD_ID }) else { return }
 
             record.event.amount = amount
