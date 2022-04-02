@@ -16,7 +16,8 @@ public extension TreeViewProtocol {
         var indices = [Int]()
 
         list.forEach { ptr in
-            indices.append(TreePathRef(raw: ptr).index)
+            guard let index = TreePathRef(raw: ptr).index else { continue }
+            indices.append(index)
         }
         g_list_free_full(list._ptr) {
             gtk_tree_path_free($0!.assumingMemoryBound(to: GtkTreePath.self))
