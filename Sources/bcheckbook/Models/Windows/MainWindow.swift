@@ -132,7 +132,7 @@ class MainWindow: WindowModel {
                 let file = chooser.getFile()
 
                 // retrieve URL string from chooser and convert it to a URL
-                let fileURL = URL(string: file.getURI())!
+                let fileURL = URL(string: file?.getURI())!
 
                 // attempt to parse file and import data into view.
                 switch fileURL.pathExtension {
@@ -185,7 +185,7 @@ class MainWindow: WindowModel {
                 let file = chooser.getFile()
 
                 // retrieve URL string from chooser and convert it to a URL
-                let fileURL = URL(string: file.getURI())!
+                let fileURL = URL(string: file?.getURI())!
 
                 switch fileURL.pathExtension {
                     case "bcheck":
