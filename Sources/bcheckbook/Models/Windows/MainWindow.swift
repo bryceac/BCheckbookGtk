@@ -125,29 +125,33 @@ class MainWindow: WindowModel {
 
             chooser.set(modal: true)
 
-            /*
-            run dialog and convert response to ResponseType, 
-            in order to make sure data is only imported when desired. */
-            if case ResponseType.accept = ResponseType(chooser.show()) {
+            chooser.onResponse { dialog, id in
+                /*
+                run dialog and convert response to ResponseType, 
+                in order to make sure data is only imported when desired. */
+                if case ResponseType.accept = ResponseType(id) {
 
-                // retrieve selected file
-                let file = chooser.getFile()!
+                    // retrieve selected file
+                    let file = dialog.getFile()!
 
-                // retrieve URL string from chooser and convert it to a URL
-                let fileURL = URL(string: file.getURI())!
+                    // retrieve URL string from chooser and convert it to a URL
+                    let fileURL = URL(string: file.getURI())!
 
-                // attempt to parse file and import data into view.
-                switch fileURL.pathExtension {
-                    case "bcheck":
-                        if let retrievedRecords = try? Record.load(from: fileURL) {
-                            self.add(records: retrievedRecords)
-                        }
-                    default:
-                        if let qif = try? QIF.load(from: fileURL), let bank = qif.sections[QIFType.bank.rawValue] {
-                            print(bank.transactions.count)
-                        }
+                    // attempt to parse file and import data into view.
+                    switch fileURL.pathExtension {
+                        case "bcheck":
+                            if let retrievedRecords = try? Record.load(from: fileURL) {
+                                self.add(records: retrievedRecords)
+                            }
+                        default:
+                            if let qif = try? QIF.load(from: fileURL), let bank = qif.sections[QIFType.bank.rawValue] {
+                                print(bank.transactions.count)
+                            }
+                    }
                 }
             }
+
+            chooser.show()            
         }
 
         exportButton?.onClicked { _ in
@@ -178,31 +182,35 @@ class MainWindow: WindowModel {
 
             chooser.mset(modal: true)
 
-            /*
-            run dialog and convert response to ResponseType, 
-            in order to make sure data is only imported when desired. */
-            if case ResponseType.accept = ResponseType(chooser.show()) {
+            choose.onResponse { dialog, id in
+                /*
+                run dialog and convert response to ResponseType, 
+                in order to make sure data is only imported when desired. */
+                if case ResponseType.accept = ResponseType(id) {
 
-                let file = chooser.getFile()!
+                    let file = dialog.getFile()!
 
-                // retrieve URL string from chooser and convert it to a URL
-                let fileURL = URL(string: file.getURI())!
+                    // retrieve URL string from chooser and convert it to a URL
+                    let fileURL = URL(string: file.getURI())!
 
-                switch fileURL.pathExtension {
-                    case "bcheck":
-                        try? self.records.items.save(to: fileURL.appendingPathExtension("bcheck"))
-                    default:
-                        let transactions = self.records.sortedRecords.map { record in
-                            QIFTransaction(record.event)
-                        }
+                    switch fileURL.pathExtension {
+                        case "bcheck":
+                            try? self.records.items.save(to: fileURL.appendingPathExtension("bcheck"))
+                        default:
+                            let transactions = self.records.sortedRecords.map { record in
+                                QIFTransaction(record.event)
+                            }
 
-                        let bank = QIFSection(type: .bank, transactions: Set(transactions))
+                            let bank = QIFSection(type: .bank, transactions: Set(transactions))
 
-                        let qif = QIF(sections: [bank.type.rawValue: bank])
+                            let qif = QIF(sections: [bank.type.rawValue: bank])
 
-                        try? qif.save(to: fileURL.appendingPathExtension("qif"))
+                            try? qif.save(to: fileURL.appendingPathExtension("qif"))
+                    }
                 }
             }
+
+            chooser.show()
         }
 
         searchField?.onSearchChanged { searchEntry in
