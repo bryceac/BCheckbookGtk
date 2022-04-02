@@ -336,7 +336,7 @@ class MainWindow: WindowModel {
             
             self.update(record: record)
         }
-        window.add(widget: mainArea!)
+        window.add(controller: mainArea!)
     }
 
     override func windowWillOpen() {

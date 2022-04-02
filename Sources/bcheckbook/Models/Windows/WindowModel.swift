@@ -8,14 +8,14 @@ class WindowModel {
     private var observer: AnyObject? = nil
 
     @discardableResult
-    init(window: Window = Window(type: .toplevel)) {
+    init(window: Window = Window()) {
         self.window = .unowned(window)
 
         self.observer = window.addWeakObserver { _ in _ = self }
 
         self.make(window: window)
 
-        window.onDeleteEvent { [weak self] _, _ -> Bool in
+        window.onCloseRequest { [weak self] _, _ -> Bool in
             self?.windowWillClose()
             return false
         }
