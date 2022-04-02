@@ -125,14 +125,14 @@ class MainWindow: WindowModel {
 
             chooser.set(modal: true)
 
-            chooser.onResponse { dialog, id in
+            chooser.onResponse { _, id in
                 /*
                 run dialog and convert response to ResponseType, 
                 in order to make sure data is only imported when desired. */
                 if case ResponseType.accept = ResponseType(id) {
 
                     // retrieve selected file
-                    let file = dialog.getFile()!
+                    let file = chooser.getFile()!
 
                     // retrieve URL string from chooser and convert it to a URL
                     let fileURL = URL(string: file.getURI())!
@@ -182,13 +182,13 @@ class MainWindow: WindowModel {
 
             chooser.set(modal: true)
 
-            chooser.onResponse { dialog, id in
+            chooser.onResponse { _, id in
                 /*
                 run dialog and convert response to ResponseType, 
                 in order to make sure data is only imported when desired. */
                 if case ResponseType.accept = ResponseType(id) {
 
-                    let file = dialog.getFile()!
+                    let file = chooser.getFile()!
 
                     // retrieve URL string from chooser and convert it to a URL
                     let fileURL = URL(string: file.getURI())!
