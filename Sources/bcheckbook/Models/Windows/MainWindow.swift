@@ -123,6 +123,8 @@ class MainWindow: WindowModel {
             chooser.set(acceptLabel: "Import")
             chooser.set(cancelLabel: "Cancel")
 
+            chooser.set(modal: true)
+
             /*
             run dialog and convert response to ResponseType, 
             in order to make sure data is only imported when desired. */
@@ -173,6 +175,8 @@ class MainWindow: WindowModel {
             // set labels on file chooser
             chooser.set(acceptLabel: "Export")
             chooser.set(cancelLabel: "Cancel")
+
+            chooser.mset(modal: true)
 
             /*
             run dialog and convert response to ResponseType, 
