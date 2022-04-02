@@ -200,7 +200,7 @@ class MainWindow: WindowModel {
         }
 
         searchField?.onSearchChanged { searchEntry in
-            self.query = searchEntry.buffer.text
+            self.query = searchEntry.text
         }
 
         addButton?.onClicked { _ in
