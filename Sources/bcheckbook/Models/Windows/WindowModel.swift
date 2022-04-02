@@ -15,7 +15,7 @@ class WindowModel {
 
         self.make(window: window)
 
-        window.onCloseRequest { [weak self] _, _ -> Bool in
+        window.onCloseRequest { [weak self] _ -> Bool in
             self?.windowWillClose()
             return false
         }
@@ -30,6 +30,6 @@ class WindowModel {
     func windowWillClose() {}
 
     func run() {
-        self.window.showAll()
+        self.window.present()
     }
 }
