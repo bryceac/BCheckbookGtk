@@ -5,6 +5,8 @@ import GLib
 
 public extension TreePathProtocol {
     var index: Int? {
-        return Int(self.getIndices()?.pointee)
+        guard let indices = self.getIndices() else { return nil }
+        
+        return Int(indices.pointee)
     }
 }
