@@ -16,7 +16,7 @@ public extension TreeViewProtocol {
         var indices = [Int]()
 
         list.forEach { ptr in
-            guard let index = TreePathRef(raw: ptr).index else { continue }
+            guard let index = TreePathRef(raw: ptr).index else { return }
             indices.append(index)
         }
         g_list_free_full(list._ptr) {
