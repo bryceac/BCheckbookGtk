@@ -180,7 +180,7 @@ class MainWindow: WindowModel {
             chooser.set(acceptLabel: "Export")
             chooser.set(cancelLabel: "Cancel")
 
-            chooser.mset(modal: true)
+            chooser.set(modal: true)
 
             chooser.onResponse { dialog, id in
                 /*
