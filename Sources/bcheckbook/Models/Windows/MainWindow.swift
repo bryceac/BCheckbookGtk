@@ -128,7 +128,7 @@ class MainWindow: WindowModel {
             /*
             run dialog and convert response to ResponseType, 
             in order to make sure data is only imported when desired. */
-            if case ResponseType.accept = ResponseType(chooser.run()) {
+            if case ResponseType.accept = ResponseType(chooser.show()) {
 
                 // retrieve selected file
                 let file = chooser.getFile()!
@@ -181,7 +181,7 @@ class MainWindow: WindowModel {
             /*
             run dialog and convert response to ResponseType, 
             in order to make sure data is only imported when desired. */
-            if case ResponseType.accept = ResponseType(chooser.run()) {
+            if case ResponseType.accept = ResponseType(chooser.show()) {
 
                 let file = chooser.getFile()!
 
